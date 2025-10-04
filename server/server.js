@@ -7,6 +7,7 @@ import AdminRouter from './adminRoutes.js';
 import EmployeeRouter from './EmployeeRoutes.js';
 import ManagerRouter from './ManagerRoutes.js';
 import AdminModel from "./models/AdminModel.js";
+import EmployeeModel from './models/EmployeeModel.js';
     
     // Load environment variables
     dotenv.config();
@@ -47,9 +48,9 @@ import AdminModel from "./models/AdminModel.js";
 });
 
 
-app.get('/api/admin/info-by-email/:email', async (req, res) => {
+app.get('/api/employee/info-by-email/:email', async (req, res) => {
   try {
-    const admin = await AdminModel.findOne({ adminEmail: req.params.email });
+    const admin = await EmployeeModel.findOne({ email: req.params.email });
     if (!admin) {
       return res.status(404).json({ message: 'Admin not found' });
     }

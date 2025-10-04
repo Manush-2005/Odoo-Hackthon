@@ -24,6 +24,7 @@ import {
 
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import axios from 'axios';
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,20 +44,20 @@ const SignIn = () => {
     setError
   } = useForm();
 
- const onSubmit = async (data) => {
+   const onSubmit = async (data) => {
+    try {
+      setIsLoading(true);
 
-   try {
-   setIsLoading(true);
-
-      // Fetch user info from backend using email
-      const res = await axios.get(`http://localhost:5000/api/admin/info-by-email/${data.email}`);
-      const admin = res.data.data;
+      // Fetch employee info from backend using email
+      const res = await axios.get(`http://localhost:5000/api/employee/info-by-email/${data.email}`);
+      console.log(res);
+      const employee = res.data.data;
 
       // Simple password check (replace with real auth in production)
-      if (!admin || data.password !== 'Admin@123') {
-        setError('email', { 
-          type: 'manual', 
-          message: 'Invalid credentials' 
+      if (!employee || data.password !== 'Admin@123') {
+        setError('email', {
+          type: 'manual',
+          message: 'Invalid credentials'
         });
         setIsLoading(false);
         return;
@@ -64,24 +65,24 @@ const SignIn = () => {
 
       // Set localStorage items
       localStorage.setItem('user', JSON.stringify({
-        _id: admin._id,
-        name: admin.name,
-        email: admin.email,
-        role: 'admin',
-        companyId: admin.companyId
+        _id: employee._id,
+        name: employee.name,
+        email: employee.email,
+        role: employee.role,
+        companyId: employee.companyId
       }));
-      localStorage.setItem('company', JSON.stringify(admin));
+      localStorage.setItem('company', JSON.stringify({ _id: employee.companyId }));
 
       navigate(from, { replace: true });
     } catch (error) {
-      setError('email', { 
-        type: 'manual', 
-        message: error.response?.data?.message || 'Invalid credentials' 
-      })
-    };
-    setIsLoading(false);
-  
-};
+      setError('email', {
+        type: 'manual',
+        message: error.response?.data?.message || 'Invalid credentials'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0, y: 50 },
