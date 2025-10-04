@@ -125,17 +125,21 @@ const ForgotPassword = () => {
                   {isSubmitted ? (
                     <KeyRounded
                       sx={{
-                        fontSize: 48,
+                        fontSize: 64,
                         color: '#10B981',
                         mb: 2
                       }}
                     />
                   ) : (
-                    <AccountBalance
+                    <Box
+                      component="img"
+                      src="/logo.png"
+                      alt="Odoo Logo"
                       sx={{
-                        fontSize: 48,
-                        color: '#714B67',
-                        mb: 2
+                        width: 64,
+                        height: 64,
+                        mb: 2,
+                        filter: 'drop-shadow(0 4px 8px rgba(113, 75, 103, 0.3))'
                       }}
                     />
                   )}

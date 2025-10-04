@@ -558,10 +558,13 @@ const SignUp = () => {
                   damping: 20 
                 }}
               >
-                <Business
+                <Box
+                  component="img"
+                  src="/logo.png"
+                  alt="Odoo Logo"
                   sx={{
-                    fontSize: 56,
-                    color: '#714B67',
+                    width: 80,
+                    height: 80,
                     mb: 2,
                     filter: 'drop-shadow(0 4px 8px rgba(113, 75, 103, 0.3))'
                   }}
