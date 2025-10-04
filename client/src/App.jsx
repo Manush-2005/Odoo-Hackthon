@@ -1,95 +1,111 @@
-import { Button } from "./components/ui/button"
-import { ArrowRight, Check, Code } from "lucide-react"
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function HackerTemplateSuccess() {
+// Context Providers
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider as CustomThemeProvider } from './context/ThemeContext';
+
+// Components
+import ProtectedRoute from './components/ProtectedRoute';
+import Layout from './components/Layout';
+
+// Pages
+import SignIn from './pages/auth/SignIn';
+import SignUp from './pages/auth/SignUp';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import UserManagement from './pages/admin/UserManagement';
+import ApprovalRules from './pages/admin/ApprovalRules';
+import EmployeeDashboard from './pages/employee/EmployeeDashboard';
+import ExpenseSubmission from './pages/employee/ExpenseSubmission';
+import ExpenseHistory from './pages/employee/ExpenseHistory';
+import ManagerDashboard from './pages/manager/ManagerDashboard';
+import ApprovalManagement from './pages/manager/ApprovalManagement';
+import PendingApprovals from './pages/manager/PendingApprovals';
+import Profile from './pages/common/Profile';
+
+// MUI Theme
+const muiTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+  typography: {
+    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+  },
+});
+
+function App() {
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
-      <header className="container mx-auto pt-8 px-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Code className="h-6 w-6 text-black dark:text-white" />
-            <span className="font-bold text-xl">HackerTemplate</span>
-          </div>
-          <a
-            href="https://hackertemplate.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button variant="outline" size="sm" className="gap-1">
-              Documentation
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </a>
-        </div>
-      </header>
-
-      <main className="container mx-auto px-4 py-16 md:py-24">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-full mb-6">
-            <Check className="h-5 w-5" />
-            <span className="font-medium">Successfully Initialized</span>
-          </div>
-
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-black dark:text-white">
-            Your project is ready to go!
-          </h1>
-
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8">
-            HackerTemplate has set up your Vite project with Tailwind CSS and shadcn/ui components. Start building your amazing application right away.
-          </p>
-
-          <Button className="h-12 px-8 text-base gap-2 bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-            Start Coding
-            <Code className="h-5 w-5" />
-          </Button>
-        </div>
-
-        <div className="bg-white dark:bg-gray-900 rounded-xl p-8 border border-gray-200 dark:border-gray-800 max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold mb-4">Next Steps</h2>
-          <ul className="space-y-4">
-            <li className="flex gap-3">
-              <div className="bg-gray-100 dark:bg-gray-800 rounded-full h-6 w-6 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-black dark:text-white text-sm font-medium">1</span>
-              </div>
-              <div>
-                <p className="font-medium">Explore your project structure</p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  Get familiar with the files and folders in your new project.
-                </p>
-              </div>
-            </li>
-            <li className="flex gap-3">
-              <div className="bg-gray-100 dark:bg-gray-800 rounded-full h-6 w-6 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-black dark:text-white text-sm font-medium">2</span>
-              </div>
-              <div>
-                <p className="font-medium">Modify this page</p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  Edit <code className="text-xs bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">app/page.jsx</code> to start building your application.
-                </p>
-              </div>
-            </li>
-            <li className="flex gap-3">
-              <div className="bg-gray-100 dark:bg-gray-800 rounded-full h-6 w-6 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-black dark:text-white text-sm font-medium">3</span>
-              </div>
-              <div>
-                <p className="font-medium">Add more components</p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  Install additional shadcn/ui components as needed.
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </main>
-
-      <footer className="container mx-auto px-4 py-8 mt-auto">
-        <div className="border-t border-gray-200 dark:border-gray-800 pt-8 text-center text-gray-500 dark:text-gray-400 text-sm">
-          <p>Created with HackerTemplate CLI — The modern way to initialize frontend projects</p>
-        </div>
-      </footer>
-    </div>
-  )
+    <CustomThemeProvider>
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        <AuthProvider>
+          <Router>
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 transition-all duration-300">
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                
+                {/* Protected Routes */}
+                <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+                  {/* Admin Routes */}
+                  <Route path="admin" element={<ProtectedRoute roles={['admin']}><AdminDashboard /></ProtectedRoute>} />
+                  <Route path="admin/users" element={<ProtectedRoute roles={['admin']}><UserManagement /></ProtectedRoute>} />
+                  <Route path="admin/approval-rules" element={<ProtectedRoute roles={['admin']}><ApprovalRules /></ProtectedRoute>} />
+                  
+                  {/* Employee Routes */}
+                  <Route path="employee" element={<ProtectedRoute roles={['employee', 'manager', 'admin']}><EmployeeDashboard /></ProtectedRoute>} />
+                  <Route path="employee/submit" element={<ProtectedRoute roles={['employee', 'manager', 'admin']}><ExpenseSubmission /></ProtectedRoute>} />
+                  <Route path="employee/history" element={<ProtectedRoute roles={['employee', 'manager', 'admin']}><ExpenseHistory /></ProtectedRoute>} />
+                  
+                  {/* Manager Routes */}
+                  <Route path="manager" element={<ProtectedRoute roles={['manager', 'admin']}><ManagerDashboard /></ProtectedRoute>} />
+                  <Route path="manager/approvals" element={<ProtectedRoute roles={['manager', 'admin']}><ApprovalManagement /></ProtectedRoute>} />
+                  <Route path="manager/pending" element={<ProtectedRoute roles={['manager', 'admin']}><PendingApprovals /></ProtectedRoute>} />
+                  
+                  {/* Common Routes */}
+                  <Route path="profile" element={<Profile />} />
+                  
+                  {/* Default redirect based on role */}
+                  <Route path="/" element={<Navigate to="/employee" replace />} />
+                </Route>
+                
+                {/* Catch all route */}
+                <Route path="*" element={<Navigate to="/signin" replace />} />
+              </Routes>
+            </div>
+          </Router>
+          
+          {/* Toast Container */}
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+            className="mt-16"
+          />
+        </AuthProvider>
+      </ThemeProvider>
+    </CustomThemeProvider>
+  );
 }
+
+export default App;

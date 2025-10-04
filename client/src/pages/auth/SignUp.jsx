@@ -1,0 +1,722 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { motion } from 'framer-motion';
+import {
+  Container,
+  Paper,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  CircularProgress,
+  InputAdornment,
+  IconButton,
+  Divider,
+  Autocomplete,
+  Step,
+  Stepper,
+  StepLabel
+} from '@mui/material';
+import {
+  Visibility,
+  VisibilityOff,
+  Email,
+  Lock,
+  AccountBalance,
+  Person,
+  Business,
+  AttachMoney
+} from '@mui/icons-material';
+
+import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
+import { currencyApi } from '../../utils/api';
+
+const SignUp = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currencies, setCurrencies] = useState([]);
+  const [currencyLoading, setCurrencyLoading] = useState(true);
+  const [activeStep, setActiveStep] = useState(0);
+  
+  const { signUp } = useAuth();
+  const { isDark } = useTheme();
+  const navigate = useNavigate();
+
+  const steps = ['Account Details', 'Company Information'];
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    watch,
+    setValue,
+    getValues
+  } = useForm({
+    defaultValues: {
+      baseCurrency: 'USD'
+    }
+  });
+
+  const password = watch('password');
+
+  // Load currencies on mount
+  useEffect(() => {
+    const loadCurrencies = async () => {
+      try {
+        const currencyData = await currencyApi.getCountriesWithCurrencies();
+        setCurrencies(currencyData);
+      } catch (error) {
+        console.error('Error loading currencies:', error);
+      } finally {
+        setCurrencyLoading(false);
+      }
+    };
+    
+    loadCurrencies();
+  }, []);
+
+  const validateStep = (step) => {
+    const values = getValues();
+    
+    if (step === 0) {
+      const requiredFields = ['name', 'email', 'password', 'confirmPassword'];
+      const hasErrors = requiredFields.some(field => !values[field]);
+      
+      if (values.password !== values.confirmPassword) {
+        setError('confirmPassword', { 
+          type: 'manual', 
+          message: 'Passwords do not match' 
+        });
+        return false;
+      }
+      
+      return !hasErrors;
+    }
+    
+    if (step === 1) {
+      return values.companyName && values.baseCurrency;
+    }
+    
+    return true;
+  };
+
+  const handleNext = () => {
+    if (validateStep(activeStep)) {
+      setActiveStep(prev => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    setActiveStep(prev => prev - 1);
+  };
+
+  const onSubmit = async (data) => {
+    try {
+      setIsLoading(true);
+      
+      if (data.password !== data.confirmPassword) {
+        setError('confirmPassword', { 
+          type: 'manual', 
+          message: 'Passwords do not match' 
+        });
+        return;
+      }
+
+      const signUpData = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        companyName: data.companyName,
+        baseCurrency: data.baseCurrency
+      };
+
+      await signUp(signUpData);
+      navigate('/employee');
+    } catch (error) {
+      setError('email', { 
+        type: 'manual', 
+        message: error.message || 'Registration failed' 
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const stepVariants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    },
+    exit: {
+      opacity: 0,
+      x: -20,
+      transition: {
+        duration: 0.3
+      }
+    }
+  };
+
+  const renderStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return (
+          <motion.div
+            key="step0"
+            variants={stepVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <TextField
+              fullWidth
+              label="Full Name"
+              margin="normal"
+              variant="outlined"
+              error={!!errors.name}
+              helperText={errors.name?.message}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Person sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                  '& fieldset': {
+                    borderColor: isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: isDark ? '#94a3b8' : '#64748b',
+                },
+                '& .MuiInputBase-input': {
+                  color: isDark ? 'white' : 'black',
+                },
+              }}
+              {...register('name', {
+                required: 'Full name is required',
+                minLength: {
+                  value: 2,
+                  message: 'Name must be at least 2 characters'
+                }
+              })}
+            />
+
+            <TextField
+              fullWidth
+              label="Email Address"
+              type="email"
+              margin="normal"
+              variant="outlined"
+              error={!!errors.email}
+              helperText={errors.email?.message}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Email sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                  '& fieldset': {
+                    borderColor: isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: isDark ? '#94a3b8' : '#64748b',
+                },
+                '& .MuiInputBase-input': {
+                  color: isDark ? 'white' : 'black',
+                },
+              }}
+              {...register('email', {
+                required: 'Email is required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Invalid email address'
+                }
+              })}
+            />
+
+            <TextField
+              fullWidth
+              label="Password"
+              type={showPassword ? 'text' : 'password'}
+              margin="normal"
+              variant="outlined"
+              error={!!errors.password}
+              helperText={errors.password?.message || 'Must be at least 8 characters'}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                      sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                  '& fieldset': {
+                    borderColor: isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: isDark ? '#94a3b8' : '#64748b',
+                },
+                '& .MuiInputBase-input': {
+                  color: isDark ? 'white' : 'black',
+                },
+              }}
+              {...register('password', {
+                required: 'Password is required',
+                minLength: {
+                  value: 8,
+                  message: 'Password must be at least 8 characters'
+                },
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+                  message: 'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+                }
+              })}
+            />
+
+            <TextField
+              fullWidth
+              label="Confirm Password"
+              type={showConfirmPassword ? 'text' : 'password'}
+              margin="normal"
+              variant="outlined"
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword?.message}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle confirm password visibility"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      edge="end"
+                      sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                    >
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                  '& fieldset': {
+                    borderColor: isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: isDark ? '#94a3b8' : '#64748b',
+                },
+                '& .MuiInputBase-input': {
+                  color: isDark ? 'white' : 'black',
+                },
+              }}
+              {...register('confirmPassword', {
+                required: 'Please confirm your password',
+                validate: value => value === password || 'Passwords do not match'
+              })}
+            />
+          </motion.div>
+        );
+
+      case 1:
+        return (
+          <motion.div
+            key="step1"
+            variants={stepVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <TextField
+              fullWidth
+              label="Company Name"
+              margin="normal"
+              variant="outlined"
+              error={!!errors.companyName}
+              helperText={errors.companyName?.message}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Business sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                  '& fieldset': {
+                    borderColor: isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: isDark ? '#94a3b8' : '#64748b',
+                },
+                '& .MuiInputBase-input': {
+                  color: isDark ? 'white' : 'black',
+                },
+              }}
+              {...register('companyName', {
+                required: 'Company name is required',
+                minLength: {
+                  value: 2,
+                  message: 'Company name must be at least 2 characters'
+                }
+              })}
+            />
+
+            <Autocomplete
+              options={currencies}
+              getOptionLabel={(option) => `${option.code} - ${option.name}`}
+              loading={currencyLoading}
+              defaultValue={currencies.find(c => c.code === 'USD')}
+              onChange={(_, value) => setValue('baseCurrency', value?.code || 'USD')}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Base Currency"
+                  margin="normal"
+                  variant="outlined"
+                  error={!!errors.baseCurrency}
+                  helperText={errors.baseCurrency?.message || 'This will be your company\'s default currency'}
+                  InputProps={{
+                    ...params.InputProps,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AttachMoney sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <>
+                        {currencyLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                        {params.InputProps.endAdornment}
+                      </>
+                    ),
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                      '& fieldset': {
+                        borderColor: isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+                      },
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: isDark ? '#94a3b8' : '#64748b',
+                    },
+                    '& .MuiInputBase-input': {
+                      color: isDark ? 'white' : 'black',
+                    },
+                  }}
+                />
+              )}
+              sx={{
+                '& .MuiAutocomplete-listbox': {
+                  backgroundColor: isDark ? '#1e293b' : '#ffffff',
+                },
+                '& .MuiAutocomplete-option': {
+                  color: isDark ? 'white' : 'black',
+                },
+              }}
+            />
+
+            <Box
+              sx={{
+                mt: 2,
+                p: 2,
+                backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(25, 118, 210, 0.1)',
+                borderRadius: 2,
+                border: `1px solid ${isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(25, 118, 210, 0.2)'}`
+              }}
+            >
+              <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, color: isDark ? '#3b82f6' : '#1976d2' }}>
+                💡 Setup Complete!
+              </Typography>
+              <Typography variant="caption" sx={{ display: 'block', color: isDark ? '#94a3b8' : '#64748b' }}>
+                • You'll be the first admin user for your company
+              </Typography>
+              <Typography variant="caption" sx={{ display: 'block', color: isDark ? '#94a3b8' : '#64748b' }}>
+                • You can add more users and configure approval rules later
+              </Typography>
+              <Typography variant="caption" sx={{ display: 'block', color: isDark ? '#94a3b8' : '#64748b' }}>
+                • All expenses will be converted to your base currency
+              </Typography>
+            </Box>
+          </motion.div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: isDark
+          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'
+          : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+        py: 3
+      }}
+    >
+      <Container maxWidth="sm">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <Paper
+            elevation={0}
+            sx={{
+              p: 4,
+              backgroundColor: isDark ? 'rgba(30, 41, 59, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+              backdropFilter: 'blur(10px)',
+              border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
+              borderRadius: 3,
+              boxShadow: isDark
+                ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+                : '0 25px 50px -12px rgba(0, 0, 0, 0.1)'
+            }}
+          >
+            {/* Header */}
+            <Box sx={{ textAlign: 'center', mb: 4 }}>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ 
+                  delay: 0.2,
+                  type: "spring", 
+                  stiffness: 300, 
+                  damping: 20 
+                }}
+              >
+                <AccountBalance
+                  sx={{
+                    fontSize: 48,
+                    color: isDark ? '#3b82f6' : '#1976d2',
+                    mb: 2
+                  }}
+                />
+              </motion.div>
+              <Typography
+                variant="h4"
+                component="h1"
+                sx={{
+                  fontWeight: 700,
+                  color: isDark ? 'white' : 'black',
+                  mb: 1
+                }}
+              >
+                Create Account
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: isDark ? '#94a3b8' : '#64748b'
+                }}
+              >
+                Set up your expense management system
+              </Typography>
+            </Box>
+
+            {/* Stepper */}
+            <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel
+                    sx={{
+                      '& .MuiStepLabel-label': {
+                        color: isDark ? '#94a3b8' : '#64748b',
+                        '&.Mui-active': {
+                          color: isDark ? '#3b82f6' : '#1976d2',
+                        },
+                        '&.Mui-completed': {
+                          color: isDark ? '#10b981' : '#2e7d32',
+                        },
+                      },
+                      '& .MuiStepIcon-root': {
+                        color: isDark ? '#475569' : '#e0e0e0',
+                        '&.Mui-active': {
+                          color: isDark ? '#3b82f6' : '#1976d2',
+                        },
+                        '&.Mui-completed': {
+                          color: isDark ? '#10b981' : '#2e7d32',
+                        },
+                      },
+                    }}
+                  >
+                    {label}
+                  </StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {renderStepContent(activeStep)}
+
+              {/* Navigation Buttons */}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  sx={{
+                    color: isDark ? '#94a3b8' : '#64748b',
+                    '&:disabled': {
+                      color: isDark ? '#475569' : '#bdbdbd',
+                    },
+                  }}
+                >
+                  Back
+                </Button>
+
+                {activeStep === steps.length - 1 ? (
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      disabled={isLoading}
+                      sx={{
+                        py: 1.5,
+                        px: 4,
+                        backgroundColor: isDark ? '#3b82f6' : '#1976d2',
+                        '&:hover': {
+                          backgroundColor: isDark ? '#2563eb' : '#1565c0',
+                        },
+                        borderRadius: 2,
+                        fontWeight: 600
+                      }}
+                    >
+                      {isLoading ? (
+                        <CircularProgress size={24} color="inherit" />
+                      ) : (
+                        'Create Account'
+                      )}
+                    </Button>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={handleNext}
+                      sx={{
+                        py: 1.5,
+                        px: 4,
+                        backgroundColor: isDark ? '#3b82f6' : '#1976d2',
+                        '&:hover': {
+                          backgroundColor: isDark ? '#2563eb' : '#1565c0',
+                        },
+                        borderRadius: 2,
+                        fontWeight: 600
+                      }}
+                    >
+                      Next
+                    </Button>
+                  </motion.div>
+                )}
+              </Box>
+            </form>
+
+            {/* Link to Sign In */}
+            <Divider sx={{ my: 3, borderColor: isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)' }} />
+            
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography
+                variant="body2"
+                sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+              >
+                Already have an account?{' '}
+                <Link
+                  to="/signin"
+                  style={{
+                    color: isDark ? '#3b82f6' : '#1976d2',
+                    textDecoration: 'none',
+                    fontWeight: 600
+                  }}
+                >
+                  Sign In
+                </Link>
+              </Typography>
+            </Box>
+          </Paper>
+        </motion.div>
+      </Container>
+    </Box>
+  );
+};
+
+export default SignUp;
