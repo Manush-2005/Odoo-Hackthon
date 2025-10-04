@@ -17,6 +17,7 @@ import Layout from './components/Layout';
 import SignIn from './pages/auth/SignIn';
 import SignUp from './pages/auth/SignUp';
 import ForgotPassword from './pages/auth/ForgotPassword';
+import LandingPage from './pages/LandingPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import UserManagement from './pages/admin/UserManagement';
 import ApprovalRules from './pages/admin/ApprovalRules';
@@ -54,12 +55,13 @@ function App() {
             <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 transition-all duration-300">
               <Routes>
                 {/* Public Routes */}
+                <Route path="/" element={<LandingPage />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 
                 {/* Protected Routes */}
-                <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+                <Route path="/dashboard" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
                   {/* Admin Routes */}
                   <Route path="admin" element={<ProtectedRoute roles={['admin']}><AdminDashboard /></ProtectedRoute>} />
                   <Route path="admin/users" element={<ProtectedRoute roles={['admin']}><UserManagement /></ProtectedRoute>} />
@@ -79,11 +81,11 @@ function App() {
                   <Route path="profile" element={<Profile />} />
                   
                   {/* Default redirect based on role */}
-                  <Route path="/" element={<Navigate to="/employee" replace />} />
+                  <Route path="" element={<Navigate to="employee" replace />} />
                 </Route>
                 
                 {/* Catch all route */}
-                <Route path="*" element={<Navigate to="/signin" replace />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </div>
           </Router>

@@ -84,13 +84,27 @@ const ForgotPassword = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: isDark
-          ? 'linear-gradient(135deg, #111827 0%, #1F2937 100%)'
-          : 'linear-gradient(135deg, #F3F4F6 0%, #E6E9ED 100%)',
+        backgroundImage: 'url(/signin-bg.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        //   backgroundColor: isDark 
+        //     ? 'rgba(17, 24, 39, 0.6)' 
+        //     : 'rgba(255, 255, 255, 0.7)',
+          zIndex: 1
+        },
         py: 3
       }}
     >
-      <Container maxWidth="sm">
+      <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 2 }}>
         <motion.div
           variants={containerVariants}
           initial="hidden"

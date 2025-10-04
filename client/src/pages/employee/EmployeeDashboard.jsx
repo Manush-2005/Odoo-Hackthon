@@ -135,7 +135,7 @@ const EmployeeDashboard = () => {
           variant="contained"
           size="large"
           startIcon={<Add />}
-          onClick={() => navigate('/employee/submit')}
+          onClick={() => navigate('/dashboard/employee/submit')}
           sx={{
             py: 1.5,
             px: 4,
@@ -474,34 +474,39 @@ const EmployeeDashboard = () => {
                         primary={
                           <Typography
                             variant="body1"
+                            component="span"
                             sx={{
                               fontWeight: 600,
                               fontFamily: 'Inter, sans-serif',
                               color: isDark ? '#FFFFFF' : '#141A29',
-                              mb: 0.5
+                              mb: 0.5,
+                              display: 'block'
                             }}
                           >
                             {expense.title}
                           </Typography>
                         }
                         secondary={
-                          <Box>
+                          <Box component="div">
                             <Typography
                               variant="body2"
+                              component="span"
                               sx={{
                                 color: isDark ? '#D1D5DB' : '#6B7280',
                                 fontFamily: 'Inter, sans-serif',
                                 fontWeight: 500,
-                                mb: 0.5
+                                mb: 0.5,
+                                display: 'block'
                               }}
                             >
                               {expense.description}
                             </Typography>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 0.5 }}>
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                 <AttachMoney sx={{ fontSize: 16, color: isDark ? '#D1D5DB' : '#6B7280' }} />
                                 <Typography
                                   variant="caption"
+                                  component="span"
                                   sx={{ 
                                     color: isDark ? '#D1D5DB' : '#6B7280',
                                     fontFamily: 'Inter, sans-serif',
@@ -515,6 +520,7 @@ const EmployeeDashboard = () => {
                                 <CalendarToday sx={{ fontSize: 16, color: isDark ? '#D1D5DB' : '#6B7280' }} />
                                 <Typography
                                   variant="caption"
+                                  component="span"
                                   sx={{ 
                                     color: isDark ? '#D1D5DB' : '#6B7280',
                                     fontFamily: 'Inter, sans-serif',
@@ -527,6 +533,9 @@ const EmployeeDashboard = () => {
                             </Box>
                           </Box>
                         }
+                        secondaryTypographyProps={{
+                          component: 'div'
+                        }}
                       />
                       <Box sx={{ textAlign: 'right', ml: 2 }}>
                         <Chip
