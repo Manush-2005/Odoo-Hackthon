@@ -1,4 +1,4 @@
-# � Odoo Expense Management System
+#  Odoo Expense Management System
 
 A modern, responsive expense management application built with React and Material-UI, featuring multi-step expense submission, real-time currency conversion, and role-based dashboards.
 
@@ -9,7 +9,7 @@ A modern, responsive expense management application built with React and Materia
 
 ## 🌟 Features
 
-### � **Multi-Role Dashboard System**
+###  **Multi-Role Dashboard System**
 - **Admin Dashboard**: Complete system overview with analytics, user management, and approval rules
 - **Manager Dashboard**: Team expense oversight, approval workflows, and reporting
 - **Employee Dashboard**: Personal expense tracking, submission history, and quick actions
@@ -32,7 +32,7 @@ A modern, responsive expense management application built with React and Materia
 - **JWT Authentication**: Token-based authentication system
 - **Protected Routes**: Automatic redirection for unauthorized access
 
-## � Quick Start
+## Quick Start
 
 ### Prerequisites
 
