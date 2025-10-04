@@ -20,11 +20,6 @@ const AdminSchema = new mongoose.Schema({
         required: true,
         uppercase: true
     },
-    adminUser: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee',
-        required: true
-    },
     approvalRules: [{
         name: { type: String, required: true },
         
