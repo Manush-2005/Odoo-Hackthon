@@ -43,69 +43,84 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signIn = async (email, password) => {
-    try {
-      setLoading(true);
-      
-      // Mock authentication - in real app, this would be an API call
-      const mockUsers = [
+  try {
+    setLoading(true);
+
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    
+    const dunderCompany = {
+      "_id": "68e0b3cdea8ac4964e44c8bc",
+      "name": "Dunder Mifflin Company",
+      "defaultCurrency": "USD",
+      "countryCode": "US",
+      "overrideApprovalEnabled": true,
+      "approvalRules": [
         {
-          id: 1,
-          email: 'admin@company.com',
-          name: 'John Admin',
-          role: 'admin',
-          companyId: 1
-        },
-        {
-          id: 2,
-          email: 'manager@company.com',
-          name: 'Sarah Manager',
-          role: 'manager',
-          companyId: 1
-        },
-        {
-          id: 3,
-          email: 'employee@company.com',
-          name: 'Mike Employee',
-          role: 'employee',
-          companyId: 1
+          "name": "Majority Vote Rule for the Officeeess",
+          "type": "Percentage",
+          "value": 60,
+          "specificApproverId": null,
+          "_id": "68e0b6dcb5c62dae1f61084f"
         }
-      ];
+      ],
+      "createdAt": "2025-10-04T05:42:37.441Z",
+      "updatedAt": "2025-10-04T05:55:40.119Z",
+      "__v": 0
+    };
 
-      const mockCompany = {
-        id: 1,
-        name: 'Acme Corporation',
-        baseCurrency: 'USD',
-        settings: {
-          approvalRequired: true,
-          maxExpenseAmount: 10000
-        }
-      };
-
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      const foundUser = mockUsers.find(u => u.email === email);
-      
-      if (!foundUser || password !== 'Admin@123') {
-        throw new Error('Invalid email or password');
+   
+    const dunderUsers = [
+      {
+        "_id": "68e0b3cdea8ac4964e44c8bc",
+        "companyId": "68e0b3cdea8ac4964e44c8bc",
+        "name": "Dunder Mifflin Company",
+        "email": "admin@dundermifflin.com",
+        "role": "admin"
+      },
+      {
+        "_id": "68e0b44cea8ac4964e44c8bf",
+        "companyId": "68e0b3cdea8ac4964e44c8bc",
+        "name": "Dwight Schrute",
+        "email": "dwight@dunder.com",
+        "role": "Manager",
+        "managerId": null,
+        "isManagerApprover": true
+      },
+      {
+        "_id": "68e0b477ea8ac4964e44c8c1",
+        "companyId": "68e0b3cdea8ac4964e44c8bc",
+        "name": "Jim Halpert",
+        "email": "jim@dunder.com",
+        "role": "Employee",
+        "managerId": "68e0b3cdea8ac4964e44c8bc",
+        "isManagerApprover": true
       }
+    ];
 
-      // Store in localStorage (in real app, use secure tokens)
-      localStorage.setItem('user', JSON.stringify(foundUser));
-      localStorage.setItem('company', JSON.stringify(mockCompany));
-      
-      setUser(foundUser);
-      setCompany(mockCompany);
-      
-      toast.success('Successfully signed in!');
-      return foundUser;
-    } catch (error) {
-      toast.error(error.message || 'Sign in failed');
-      throw error;
-    } finally {
-      setLoading(false);
+   
+    const foundUser = dunderUsers.find(u => u.email === email);
+
+    if (!foundUser || password !== 'Admin@123') {
+      throw new Error('Invalid email or password');
     }
-  };
+
+    localStorage.setItem('user', JSON.stringify(foundUser));
+    localStorage.setItem('company', JSON.stringify(dunderCompany));
+
+    setUser(foundUser);
+    setCompany(dunderCompany);
+
+    toast.success('Successfully signed in!');
+    return foundUser;
+  } catch (error) {
+    toast.error(error.message || 'Sign in failed');
+    throw error;
+  } finally {
+    setLoading(false);
+  }
+};
 
   const signUp = async (userData) => {
     try {
@@ -114,26 +129,42 @@ export const AuthProvider = ({ children }) => {
       // Mock sign up - in real app, this would be an API call
       await new Promise(resolve => setTimeout(resolve, 1500));
 
-      const newUser = {
-        id: Date.now(),
-        email: userData.email,
-        name: userData.name,
-        role: 'admin', // First user is admin
-        companyId: Date.now()
-      };
 
-      const newCompany = {
-        id: Date.now(),
-        name: userData.companyName,
-        baseCurrency: userData.baseCurrency,
-        settings: {
-          approvalRequired: true,
-          maxExpenseAmount: 10000
-        }
-      };
+     const newUser = {
+  "_id": "68e0b3cdea8ac4964e44c8bc",
+  "name": "Dunder Mifflin Company",
+  "role": "admin",
+  "email": "admin@dundermifflin.com",
+  "companyId": "68e0b3cdea8ac4964e44c8bc"
+}
+     
 
-      localStorage.setItem('user', JSON.stringify(newUser));
-      localStorage.setItem('company', JSON.stringify(newCompany));
+const newCompany = {
+  "_id": "68e0b3cdea8ac4964e44c8bc",
+  "name": "Dunder Mifflin Company",
+  "defaultCurrency": "USD",
+  "countryCode": "US",
+  "overrideApprovalEnabled": true,
+  "approvalRules": [
+    {
+      "name": "Majority Vote Rule for the Officeeess",
+      "type": "Percentage",
+      "value": 60,
+      "specificApproverId": null,
+      "_id": "68e0b6dcb5c62dae1f61084f"
+    }
+  ],
+  "createdAt": "2025-10-04T05:42:37.441Z",
+  "updatedAt": "2025-10-04T05:55:40.119Z",
+  "__v": 0
+}
+
+
+localStorage.setItem('user', JSON.stringify(newUser));
+localStorage.setItem('company', JSON.stringify(newCompany));
+
+
+      
       
       setUser(newUser);
       setCompany(newCompany);

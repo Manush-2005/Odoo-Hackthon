@@ -49,6 +49,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { mockApi } from '../../utils/api';
 import { formatDate } from '../../utils/helpers';
+import axios from 'axios';
 
 const UserManagement = () => {
   const [loading, setLoading] = useState(true);
@@ -73,10 +74,16 @@ const UserManagement = () => {
     loadUsers();
   }, []);
 
-  const loadUsers = async () => {
+   const loadUsers = async () => {
     try {
       setLoading(true);
-      const data = await mockApi.users.getAll();
+      // Fetch users from backend
+      const res = await axios.get(`http://localhost:5000/api/admin/employees/68e0b3cdea8ac4964e44c8bc`);
+      // Map backend _id to id for frontend
+      const data = (res.data.data?.employees || []).map(u => ({
+        ...u,
+        id: u._id
+      }));
       setUsers(data);
     } catch (error) {
       console.error('Error loading users:', error);
@@ -87,11 +94,11 @@ const UserManagement = () => {
   };
 
   const handleCreateUser = () => {
-    setFormData({ name: '', email: '', role: 'employee', status: 'active', managerId: null });
+    setFormData({ name: '', email: '', role: 'Employee', status: 'active', managerId: null });
     setUserDialog({ open: true, user: null, mode: 'create' });
   };
 
-  const handleEditUser = (user) => {
+   const handleEditUser = (user) => {
     setFormData({
       name: user.name,
       email: user.email,
@@ -108,16 +115,23 @@ const UserManagement = () => {
     setAnchorEl(null);
   };
 
-  const handleSubmitUser = async () => {
+   const handleSubmitUser = async () => {
     try {
       if (userDialog.mode === 'create') {
-        await mockApi.users.create(formData);
+        await axios.post('http://localhost:5000/api/admin/employees', {
+        name: formData.name,
+        email: formData.email,
+        
+          companyId: "68e0b3cdea8ac4964e44c8bc"
+        });
         toast.success('User created successfully!');
       } else {
-        await mockApi.users.update(userDialog.user.id, formData);
+        await axios.put(`http://localhost:5000/api/admin/employees/${userDialog.user.id}`, {
+          ...formData,
+          companyId: "68e0b3cdea8ac4964e44c8bc"
+        });
         toast.success('User updated successfully!');
       }
-      
       loadUsers();
       setUserDialog({ open: false, user: null, mode: 'create' });
     } catch (error) {
@@ -125,7 +139,6 @@ const UserManagement = () => {
       toast.error('Failed to save user');
     }
   };
-
   const handleConfirmDelete = async () => {
     try {
       await mockApi.users.delete(deleteDialog.user.id);
@@ -155,17 +168,17 @@ const UserManagement = () => {
     );
   };
 
-  const handleManagerAssignment = async (userId, managerId) => {
+    const handleManagerAssignment = async (userId, managerId) => {
     try {
-      await mockApi.users.assignManager(userId, managerId);
-      
-      // Update local state
-      setUsers(prev => prev.map(user => 
-        user.id === userId 
+      await axios.put(`http://localhost:5000/api/admin/employees/${userId}`, {
+        managerId,
+        companyId: "68e0b3cdea8ac4964e44c8bc"
+      });
+      setUsers(prev => prev.map(user =>
+        user.id === userId
           ? { ...user, managerId: managerId || null }
           : user
       ));
-      
       toast.success('Manager assigned successfully!');
     } catch (error) {
       console.error('Error assigning manager:', error);

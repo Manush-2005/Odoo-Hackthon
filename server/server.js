@@ -6,6 +6,7 @@ import cors from 'cors';
 import AdminRouter from './adminRoutes.js';
 import EmployeeRouter from './EmployeeRoutes.js';
 import ManagerRouter from './ManagerRoutes.js';
+import AdminModel from "./models/AdminModel.js";
     
     // Load environment variables
     dotenv.config();
@@ -30,6 +31,20 @@ import ManagerRouter from './ManagerRoutes.js';
     app.use("/api/admin", AdminRouter);
     app.use("/api/Employee", EmployeeRouter);
     app.use("/api/Manager", ManagerRouter);
+
+
+
+    app.get('/api/admin/info/:adminId', async (req, res) => {
+  try {
+    const admin = await AdminModel.findById(req.params.adminId);
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    res.json({ data: admin });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
     
     app.listen(PORT, async() => {
 
