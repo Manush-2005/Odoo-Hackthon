@@ -50,7 +50,7 @@ export const currencyApi = {
     try {
       const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,currencies');
       
-      // Extract unique currencies
+      // Extract unique currencies with country information
       const currencyMap = new Map();
       
       response.data.forEach(country => {
@@ -58,7 +58,8 @@ export const currencyApi = {
           Object.entries(country.currencies).forEach(([code, info]) => {
             if (!currencyMap.has(code)) {
               currencyMap.set(code, {
-                code,
+                currency: code,
+                country: country.name.common,
                 name: info.name,
                 symbol: info.symbol || code
               });
@@ -67,16 +68,16 @@ export const currencyApi = {
         }
       });
       
-      return Array.from(currencyMap.values()).sort((a, b) => a.code.localeCompare(b.code));
+      return Array.from(currencyMap.values()).sort((a, b) => a.currency.localeCompare(b.currency));
     } catch (error) {
       console.error('Error fetching currencies:', error);
       // Fallback currencies
       return [
-        { code: 'USD', name: 'United States Dollar', symbol: '$' },
-        { code: 'EUR', name: 'Euro', symbol: '€' },
-        { code: 'GBP', name: 'British Pound Sterling', symbol: '£' },
-        { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
-        { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
+        { currency: 'USD', country: 'United States', name: 'United States Dollar', symbol: '$' },
+        { currency: 'EUR', country: 'Eurozone', name: 'Euro', symbol: '€' },
+        { currency: 'GBP', country: 'United Kingdom', name: 'British Pound Sterling', symbol: '£' },
+        { currency: 'JPY', country: 'Japan', name: 'Japanese Yen', symbol: '¥' },
+        { currency: 'INR', country: 'India', name: 'Indian Rupee', symbol: '₹' },
       ];
     }
   },

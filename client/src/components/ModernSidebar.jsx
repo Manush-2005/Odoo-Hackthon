@@ -43,7 +43,7 @@ import { useTheme } from "../context/ThemeContext";
 const ModernSidebar = ({ onClose, onSidebarToggle }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, signOut } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(true);
   const [userMenuAnchor, setUserMenuAnchor] = useState(null);
@@ -58,19 +58,19 @@ const ModernSidebar = ({ onClose, onSidebarToggle }) => {
       {
         title: "Employee Dashboard",
         icon: <Dashboard />,
-        path: "/employee",
+        path: "/dashboard/employee",
         roles: ["employee", "manager", "admin"],
       },
       {
         title: "Submit Expense",
         icon: <Receipt />,
-        path: "/employee/submit",
+        path: "/dashboard/employee/submit",
         roles: ["employee", "manager", "admin"],
       },
       {
         title: "Expense History",
         icon: <History />,
-        path: "/employee/history",
+        path: "/dashboard/employee/history",
         roles: ["employee", "manager", "admin"],
       },
     ];
@@ -81,13 +81,13 @@ const ModernSidebar = ({ onClose, onSidebarToggle }) => {
         {
           title: "Manager Dashboard",
           icon: <Assignment />,
-          path: "/manager",
+          path: "/dashboard/manager",
           roles: ["manager", "admin"],
         },
         {
           title: "Pending Approvals",
           icon: <CheckCircle />,
-          path: "/manager/approvals",
+          path: "/dashboard/manager/approvals",
           roles: ["manager", "admin"],
           badge: 3,
         }
@@ -100,19 +100,19 @@ const ModernSidebar = ({ onClose, onSidebarToggle }) => {
         {
           title: "Admin Dashboard",
           icon: <AdminPanelSettings />,
-          path: "/admin",
+          path: "/dashboard/admin",
           roles: ["admin"],
         },
         {
           title: "User Management",
           icon: <People />,
-          path: "/admin/users",
+          path: "/dashboard/admin/users",
           roles: ["admin"],
         },
         {
           title: "Approval Rules",
           icon: <Settings />,
-          path: "/admin/approval-rules",
+          path: "/dashboard/admin/approval-rules",
           roles: ["admin"],
         }
       );
@@ -125,7 +125,7 @@ const ModernSidebar = ({ onClose, onSidebarToggle }) => {
   const handleUserMenuClose = () => setUserMenuAnchor(null);
   const handleProfileClick = () => {
     handleUserMenuClose();
-    navigate("/profile");
+    navigate("/dashboard/profile");
   };
 
   const handleLogoutClick = () => {
@@ -133,9 +133,9 @@ const ModernSidebar = ({ onClose, onSidebarToggle }) => {
     setLogoutDialog(true);
   };
   const handleLogoutConfirm = () => {
-    logout();
+    signOut();
     setLogoutDialog(false);
-    navigate("/login");
+    navigate("/signin");
   };
 
   const isActive = (path) => location.pathname === path;
