@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -27,7 +28,6 @@ import {
 
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { mockApi } from '../../utils/api';
 import { formatCurrency, formatDate } from '../../utils/helpers';
 
 const AdminDashboard = () => {
@@ -47,25 +47,35 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     loadDashboardData();
-  }, []);
+    // eslint-disable-next-line
+  }, [user?._id]);
 
   const loadDashboardData = async () => {
     try {
       setLoading(true);
-      
-      // Load data in parallel
-      const [users, expenses] = await Promise.all([
-        mockApi.users.getAll(),
-        mockApi.expenses.getAll()
+
+      // Use user._id from localStorage/context for all routes
+      const companyId = user?._id;
+
+      // Fetch users and expenses from backend
+      const [usersRes, expensesRes] = await Promise.all([
+        axios.get(`http://localhost:5000/api/admin/employees/${companyId}`),
+        axios.get(`http://localhost:5000/api/admin/expenses/all`, {
+          params: { companyId }
+        })
       ]);
+
+      // Extract data from responses
+      const users = usersRes.data.data?.employees || [];
+      const expenses = expensesRes.data.data?.expenses || [];
 
       // Calculate stats
       const totalUsers = users.length;
       const totalExpenses = expenses.length;
-      const pendingApprovals = expenses.filter(e => e.status === 'pending').length;
+      const pendingApprovals = expenses.filter(e => e.currentStatus === 'pending').length;
       const monthlySpend = expenses
-        .filter(e => new Date(e.date).getMonth() === new Date().getMonth())
-        .reduce((sum, e) => sum + e.convertedAmount, 0);
+        .filter(e => new Date(e.createdAt).getMonth() === new Date().getMonth())
+        .reduce((sum, e) => sum + (e.convertedAmount || e.amount || 0), 0);
 
       setStats({
         totalUsers,
@@ -74,10 +84,32 @@ const AdminDashboard = () => {
         monthlySpend
       });
 
-      // Set recent data
-      setRecentExpenses(expenses.slice(0, 5));
-      setRecentUsers(users.slice(0, 5));
+      // Set recent data (sorted by createdAt descending)
+      setRecentExpenses(
+        expenses
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 5)
+          .map(e => ({
+            id: e._id,
+            title: e.title || e.description || 'Expense',
+            submittedBy: e.employeeId || { name: 'Unknown' },
+            date: e.createdAt,
+            convertedAmount: e.convertedAmount || e.amount || 0,
+            status: e.currentStatus || 'pending'
+          }))
+      );
 
+      setRecentUsers(
+        users
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 5)
+          .map(u => ({
+            id: u._id,
+            name: u.name,
+            role: u.role,
+            status: 'active'
+          }))
+      );
     } catch (error) {
       console.error('Error loading dashboard data:', error);
     } finally {
@@ -112,7 +144,7 @@ const AdminDashboard = () => {
     },
     {
       title: 'Monthly Spend',
-      value: formatCurrency(stats.monthlySpend, company?.baseCurrency),
+      value: formatCurrency(stats.monthlySpend, company?.baseCurrency || company?.defaultCurrency),
       icon: <TrendingUp />,
       color: '#8b5cf6',
       change: '+15%',
@@ -354,7 +386,7 @@ const AdminDashboard = () => {
                             color: isDark ? '#94a3b8' : '#64748b'
                           }}
                         >
-                          by {expense.submittedBy.name} • {formatDate(expense.date)}
+                          by {expense.submittedBy?.name || 'Unknown'} • {formatDate(expense.date)}
                         </Typography>
                       </Box>
                       <Box sx={{ textAlign: 'right' }}>
@@ -365,7 +397,7 @@ const AdminDashboard = () => {
                             color: isDark ? 'white' : 'black'
                           }}
                         >
-                          {formatCurrency(expense.convertedAmount, company?.baseCurrency)}
+                          {formatCurrency(expense.convertedAmount, company?.baseCurrency || company?.defaultCurrency)}
                         </Typography>
                         <Chip
                           label={expense.status}

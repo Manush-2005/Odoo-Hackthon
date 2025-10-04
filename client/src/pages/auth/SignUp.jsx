@@ -32,6 +32,8 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { mockApi, currencyApi } from '../../utils/api';
+import { currencyApi } from '../../utils/api';
+import axios from 'axios';
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -115,36 +117,50 @@ const SignUp = () => {
   };
 
   const onSubmit = async (data) => {
-    try {
-      setIsLoading(true);
-      
-      if (data.password !== data.confirmPassword) {
-        setError('confirmPassword', { 
-          type: 'manual', 
-          message: 'Passwords do not match' 
-        });
-        return;
-      }
-
-      const signUpData = {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        companyName: data.companyName,
-        baseCurrency: data.baseCurrency
-      };
-
-      await signUp(signUpData);
-      navigate('/dashboard/employee');
-    } catch (error) {
-      setError('email', { 
+  try {
+    setIsLoading(true);
+    if (data.password !== data.confirmPassword) {
+      setError('confirmPassword', { 
         type: 'manual', 
-        message: error.message || 'Registration failed' 
+        message: 'Passwords do not match' 
       });
-    } finally {
-      setIsLoading(false);
+      return;
     }
-  };
+    // Prepare payload for backend
+    const signUpData = {
+      companyName: data.companyName,
+      countryCode: 'US', 
+      adminName: data.name,
+      adminEmail: data.email
+    };
+   
+console.log('Submitting sign up data:', signUpData);
+    // Call backend API directly
+    const res = await axios.post('http://localhost:5000/api/admin/createAdmin', signUpData);
+    console.log(res.data);
+    const admin = res.data.data.admin;
+
+    // Save user and company info to localStorage
+    localStorage.setItem('user', JSON.stringify({
+      _id: admin._id,
+      name: admin.name,
+      email: data.email,
+      role: 'admin',
+      companyId: admin.companyId
+    }));
+    localStorage.setItem('company', JSON.stringify(admin));
+
+    // Redirect to employee page
+    navigate('/admin');
+  } catch (error) {
+    setError('email', { 
+      type: 'manual', 
+      message: error.response?.data?.message || 'Registration failed' 
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const containerVariants = {
     hidden: { opacity: 0, y: 50 },

@@ -1,7 +1,13 @@
-const express = require('express');
-    const dotenv = require('dotenv');
-    const mongoose = require("mongoose");
-    const cors = require("cors");
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
+
+import AdminRouter from './adminRoutes.js';
+import EmployeeRouter from './EmployeeRoutes.js';
+import ManagerRouter from './ManagerRoutes.js';
+import AdminModel from "./models/AdminModel.js";
+import EmployeeModel from './models/EmployeeModel.js';
     
     // Load environment variables
     dotenv.config();
@@ -21,6 +27,38 @@ const express = require('express');
     });
     
     const PORT = process.env.PORT || 5000;
+
+
+    app.use("/api/admin", AdminRouter);
+    app.use("/api/Employee", EmployeeRouter);
+    app.use("/api/Manager", ManagerRouter);
+
+
+
+    app.get('/api/admin/info/:adminId', async (req, res) => {
+  try {
+    const admin = await AdminModel.findById(req.params.adminId);
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    res.json({ data: admin });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+app.get('/api/employee/info-by-email/:email', async (req, res) => {
+  try {
+    const admin = await EmployeeModel.findOne({ email: req.params.email });
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    res.json({ data: admin });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
     
     app.listen(PORT, async() => {
 

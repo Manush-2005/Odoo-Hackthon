@@ -42,109 +42,79 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const signIn = async (email, password) => {
-    try {
+
+const signIn = async (email, password) => {
+   try {
       setLoading(true);
-      
-      // Mock authentication - in real app, this would be an API call
-      const mockUsers = [
-        {
-          id: 1,
-          email: 'admin@company.com',
-          name: 'John Admin',
-          role: 'admin',
-          companyId: 1
-        },
-        {
-          id: 2,
-          email: 'manager@company.com',
-          name: 'Sarah Manager',
-          role: 'manager',
-          companyId: 1
-        },
-        {
-          id: 3,
-          email: 'employee@company.com',
-          name: 'Mike Employee',
-          role: 'employee',
-          companyId: 1
-        }
-      ];
-
-      const mockCompany = {
-        id: 1,
-        name: 'Acme Corporation',
-        baseCurrency: 'USD',
-        settings: {
-          approvalRequired: true,
-          maxExpenseAmount: 10000
-        }
-      };
-
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      const foundUser = mockUsers.find(u => u.email === email);
-      
-      if (!foundUser || password !== 'Admin@123') {
-        throw new Error('Invalid email or password');
-      }
-
-      // Store in localStorage (in real app, use secure tokens)
-      localStorage.setItem('user', JSON.stringify(foundUser));
-      localStorage.setItem('company', JSON.stringify(mockCompany));
-      
-      setUser(foundUser);
-      setCompany(mockCompany);
-      
+      // You should have an authentication route, but for now, fetch by email
+      // Example: GET /api/admin/info-by-email/:email
+      const res = await axios.get(`http://localhost:5000/api/admin/info-by-email/${email}`);
+      const admin = res.data.data;
+      if (!admin) throw new Error('Admin not found');
+      // You should check password here if you store it in DB
+      localStorage.setItem('user', JSON.stringify({
+        _id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: 'admin',
+        companyId: admin.companyId
+      }));
+      localStorage.setItem('company', JSON.stringify(admin));
+      setUser({
+        _id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: 'admin',
+        companyId: admin.companyId
+      });
+      setCompany(admin);
       toast.success('Successfully signed in!');
-      return foundUser;
+      return admin;
     } catch (error) {
-      toast.error(error.message || 'Sign in failed');
+      toast.error(error.response?.data?.message || 'Sign in failed');
       throw error;
     } finally {
       setLoading(false);
     }
   };
 
+  
+
   const signUp = async (userData) => {
     try {
       setLoading(true);
-      
-      // Mock sign up - in real app, this would be an API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      const newUser = {
-        id: Date.now(),
+      // POST to backend route
+      const res = await axios.post('http://localhost:5000/api/admin/createAdmin', {
+        companyName: userData.companyName,
+        countryCode: 'US', // or get from userData if needed
+        adminName: userData.name,
+        adminEmail: userData.email
+      });
+      console.log('Sign up response:', res);
+      const admin = res.data.data.admin;
+      localStorage.setItem('user', JSON.stringify({
+        _id: admin._id,
+        name: admin.name,
         email: userData.email,
-        name: userData.name,
-        role: 'admin', // First user is admin
-        companyId: Date.now()
-      };
-
-      const newCompany = {
-        id: Date.now(),
-        name: userData.companyName,
-        baseCurrency: userData.baseCurrency,
-        settings: {
-          approvalRequired: true,
-          maxExpenseAmount: 10000
-        }
-      };
-
-      localStorage.setItem('user', JSON.stringify(newUser));
-      localStorage.setItem('company', JSON.stringify(newCompany));
-      
-      setUser(newUser);
-      setCompany(newCompany);
-      
+        role: 'admin',
+        companyId: admin.companyId
+      }));
+      localStorage.setItem('company', JSON.stringify(admin));
+      setUser({
+        _id: admin._id,
+        name: admin.name,
+        email: userData.email,
+        role: 'admin',
+        companyId: admin.companyId
+      });
+      setCompany(admin);
       toast.success('Account created successfully!');
-      return newUser;
+      return admin;
     } catch (error) {
-      toast.error(error.message || 'Sign up failed');
+      toast.error(error.response?.data?.message || 'Sign up failed');
       throw error;
     } finally {
-      setLoading(false);
+       setLoading(false);
     }
   };
 
