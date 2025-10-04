@@ -45,6 +45,19 @@ import AdminModel from "./models/AdminModel.js";
     res.status(500).json({ error: error.message });
   }
 });
+
+
+app.get('/api/admin/info-by-email/:email', async (req, res) => {
+  try {
+    const admin = await AdminModel.findOne({ adminEmail: req.params.email });
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    res.json({ data: admin });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
     
     app.listen(PORT, async() => {
 

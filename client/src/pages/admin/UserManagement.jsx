@@ -70,15 +70,16 @@ const UserManagement = () => {
   const { isDark } = useTheme();
   const navigate = useNavigate();
 
-  useEffect(() => {
+   useEffect(() => {
     loadUsers();
-  }, []);
+    // eslint-disable-next-line
+  }, [currentUser?._id]);
 
    const loadUsers = async () => {
     try {
       setLoading(true);
       // Fetch users from backend
-      const res = await axios.get(`http://localhost:5000/api/admin/employees/68e0b3cdea8ac4964e44c8bc`);
+      const res = await axios.get(`http://localhost:5000/api/admin/employees/${currentUser?._id}`);
       // Map backend _id to id for frontend
       const data = (res.data.data?.employees || []).map(u => ({
         ...u,
@@ -118,17 +119,19 @@ const UserManagement = () => {
    const handleSubmitUser = async () => {
     try {
       if (userDialog.mode === 'create') {
-        await axios.post('http://localhost:5000/api/admin/employees', {
-        name: formData.name,
-        email: formData.email,
-        
-          companyId: "68e0b3cdea8ac4964e44c8bc"
+         await axios.post('http://localhost:5000/api/admin/employees', {
+          name: formData.name,
+          email: formData.email,
+          role: formData.role,
+          managerId: formData.managerId,
+          status: formData.status,
+          companyId: currentUser?._id
         });
         toast.success('User created successfully!');
       } else {
         await axios.put(`http://localhost:5000/api/admin/employees/${userDialog.user.id}`, {
           ...formData,
-          companyId: "68e0b3cdea8ac4964e44c8bc"
+          companyId: currentUser?._id
         });
         toast.success('User updated successfully!');
       }
@@ -172,7 +175,7 @@ const UserManagement = () => {
     try {
       await axios.put(`http://localhost:5000/api/admin/employees/${userId}`, {
         managerId,
-        companyId: "68e0b3cdea8ac4964e44c8bc"
+        companyId: currentUser?._id
       });
       setUsers(prev => prev.map(user =>
         user.id === userId

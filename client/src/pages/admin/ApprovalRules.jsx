@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Card, CardContent, Typography, Grid, Chip, IconButton, LinearProgress } from '@mui/material';
-import { Rule, Policy } from '@mui/icons-material';
+import { Box, Card, CardContent, Typography, Grid, Chip, LinearProgress, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
+import { Rule, Policy, AddCircle } from '@mui/icons-material';
 import { useTheme } from '../../context/ThemeContext';
 import axios from 'axios';
 
 const ApprovalRules = () => {
   const [loading, setLoading] = useState(true);
   const [rules, setRules] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [form, setForm] = useState({
+    name: '',
+    type: '',
+    value: '',
+    specificApproverId: ''
+  });
   const { isDark } = useTheme();
+
+  // Replace with dynamic companyId if needed
+  const companyId = JSON.parse(localStorage.getItem('user'))?._id;
 
   useEffect(() => {
     fetchApprovalRules();
@@ -17,13 +27,47 @@ const ApprovalRules = () => {
   const fetchApprovalRules = async () => {
     try {
       setLoading(true);
-      const companyRes = await axios.get(`http://localhost:5000/api/admin/info/68e0b3cdea8ac4964e44c8bc`);
+      const companyRes = await axios.get(`http://localhost:5000/api/admin/info/${companyId}`);
       const approvalRules = companyRes.data?.data.approvalRules || [];
       setRules(approvalRules);
     } catch (error) {
       setRules([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDialogOpen = () => {
+    setForm({
+      name: '',
+      type: '',
+      value: '',
+      specificApproverId: ''
+    });
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleFormChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleAddRule = async () => {
+    try {
+      await axios.post('http://localhost:5000/api/admin/approval-rules', {
+        name: form.name,
+        type: form.type,
+        value: form.value,
+        specificApproverId: form.specificApproverId || null,
+        companyId
+      });
+      fetchApprovalRules();
+      setDialogOpen(false);
+    } catch (error) {
+      // Handle error (toast, etc.)
     }
   };
 
@@ -37,17 +81,34 @@ const ApprovalRules = () => {
 
   return (
     <Box sx={{ flexGrow: 1, p: 2 }}>
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: 700,
-          fontFamily: 'Caveat, cursive',
-          color: isDark ? '#FFFFFF' : '#141A29',
-          mb: 3
-        }}
-      >
-        Approval Rules
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 700,
+            fontFamily: 'Caveat, cursive',
+            color: isDark ? '#FFFFFF' : '#141A29',
+            flex: 1
+          }}
+        >
+          Approval Rules
+        </Typography>
+        <Button
+          variant="contained"
+          startIcon={<AddCircle />}
+          onClick={handleDialogOpen}
+          sx={{
+            backgroundColor: '#8b5cf6',
+            color: 'white',
+            fontWeight: 600,
+            borderRadius: 2,
+            boxShadow: 'none',
+            '&:hover': { backgroundColor: '#7c3aed' }
+          }}
+        >
+          Add Rule
+        </Button>
+      </Box>
       <Grid container spacing={3}>
         {rules.length === 0 ? (
           <Grid item xs={12}>
@@ -118,6 +179,53 @@ const ApprovalRules = () => {
           ))
         )}
       </Grid>
+
+      {/* Add Rule Dialog */}
+      <Dialog open={dialogOpen} onClose={handleDialogClose}>
+        <DialogTitle>Add Approval Rule</DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            label="Rule Name"
+            name="name"
+            fullWidth
+            value={form.name}
+            onChange={handleFormChange}
+          />
+          <TextField
+            margin="dense"
+            label="Type"
+            name="type"
+            fullWidth
+            value={form.type}
+            onChange={handleFormChange}
+          />
+          <TextField
+            margin="dense"
+            label="Value"
+            name="value"
+            type="number"
+            fullWidth
+            value={form.value}
+            onChange={handleFormChange}
+          />
+          <TextField
+            margin="dense"
+            label="Specific Approver ID"
+            name="specificApproverId"
+            fullWidth
+            value={form.specificApproverId}
+            onChange={handleFormChange}
+            placeholder="Leave blank for Majority"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>Cancel</Button>
+          <Button onClick={handleAddRule} variant="contained" color="primary">
+            Add Rule
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

@@ -42,140 +42,79 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const signIn = async (email, password) => {
-  try {
-    setLoading(true);
 
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    
-    const dunderCompany = {
-      "_id": "68e0b3cdea8ac4964e44c8bc",
-      "name": "Dunder Mifflin Company",
-      "defaultCurrency": "USD",
-      "countryCode": "US",
-      "overrideApprovalEnabled": true,
-      "approvalRules": [
-        {
-          "name": "Majority Vote Rule for the Officeeess",
-          "type": "Percentage",
-          "value": 60,
-          "specificApproverId": null,
-          "_id": "68e0b6dcb5c62dae1f61084f"
-        }
-      ],
-      "createdAt": "2025-10-04T05:42:37.441Z",
-      "updatedAt": "2025-10-04T05:55:40.119Z",
-      "__v": 0
-    };
-
-   
-    const dunderUsers = [
-      {
-        "_id": "68e0b3cdea8ac4964e44c8bc",
-        "companyId": "68e0b3cdea8ac4964e44c8bc",
-        "name": "Dunder Mifflin Company",
-        "email": "admin@dundermifflin.com",
-        "role": "admin"
-      },
-      {
-        "_id": "68e0b44cea8ac4964e44c8bf",
-        "companyId": "68e0b3cdea8ac4964e44c8bc",
-        "name": "Dwight Schrute",
-        "email": "dwight@dunder.com",
-        "role": "Manager",
-        "managerId": null,
-        "isManagerApprover": true
-      },
-      {
-        "_id": "68e0b477ea8ac4964e44c8c1",
-        "companyId": "68e0b3cdea8ac4964e44c8bc",
-        "name": "Jim Halpert",
-        "email": "jim@dunder.com",
-        "role": "Employee",
-        "managerId": "68e0b3cdea8ac4964e44c8bc",
-        "isManagerApprover": true
-      }
-    ];
-
-   
-    const foundUser = dunderUsers.find(u => u.email === email);
-
-    if (!foundUser || password !== 'Admin@123') {
-      throw new Error('Invalid email or password');
+const signIn = async (email, password) => {
+   try {
+      setLoading(true);
+      // You should have an authentication route, but for now, fetch by email
+      // Example: GET /api/admin/info-by-email/:email
+      const res = await axios.get(`http://localhost:5000/api/admin/info-by-email/${email}`);
+      const admin = res.data.data;
+      if (!admin) throw new Error('Admin not found');
+      // You should check password here if you store it in DB
+      localStorage.setItem('user', JSON.stringify({
+        _id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: 'admin',
+        companyId: admin.companyId
+      }));
+      localStorage.setItem('company', JSON.stringify(admin));
+      setUser({
+        _id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: 'admin',
+        companyId: admin.companyId
+      });
+      setCompany(admin);
+      toast.success('Successfully signed in!');
+      return admin;
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Sign in failed');
+      throw error;
+    } finally {
+      setLoading(false);
     }
+  };
 
-    localStorage.setItem('user', JSON.stringify(foundUser));
-    localStorage.setItem('company', JSON.stringify(dunderCompany));
-
-    setUser(foundUser);
-    setCompany(dunderCompany);
-
-    toast.success('Successfully signed in!');
-    return foundUser;
-  } catch (error) {
-    toast.error(error.message || 'Sign in failed');
-    throw error;
-  } finally {
-    setLoading(false);
-  }
-};
+  
 
   const signUp = async (userData) => {
     try {
       setLoading(true);
-      
-      // Mock sign up - in real app, this would be an API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-
-     const newUser = {
-  "_id": "68e0b3cdea8ac4964e44c8bc",
-  "name": "Dunder Mifflin Company",
-  "role": "admin",
-  "email": "admin@dundermifflin.com",
-  "companyId": "68e0b3cdea8ac4964e44c8bc"
-}
-     
-
-const newCompany = {
-  "_id": "68e0b3cdea8ac4964e44c8bc",
-  "name": "Dunder Mifflin Company",
-  "defaultCurrency": "USD",
-  "countryCode": "US",
-  "overrideApprovalEnabled": true,
-  "approvalRules": [
-    {
-      "name": "Majority Vote Rule for the Officeeess",
-      "type": "Percentage",
-      "value": 60,
-      "specificApproverId": null,
-      "_id": "68e0b6dcb5c62dae1f61084f"
-    }
-  ],
-  "createdAt": "2025-10-04T05:42:37.441Z",
-  "updatedAt": "2025-10-04T05:55:40.119Z",
-  "__v": 0
-}
-
-
-localStorage.setItem('user', JSON.stringify(newUser));
-localStorage.setItem('company', JSON.stringify(newCompany));
-
-
-      
-      
-      setUser(newUser);
-      setCompany(newCompany);
-      
+      // POST to backend route
+      const res = await axios.post('http://localhost:5000/api/admin/createAdmin', {
+        companyName: userData.companyName,
+        countryCode: 'US', // or get from userData if needed
+        adminName: userData.name,
+        adminEmail: userData.email
+      });
+      console.log('Sign up response:', res);
+      const admin = res.data.data.admin;
+      localStorage.setItem('user', JSON.stringify({
+        _id: admin._id,
+        name: admin.name,
+        email: userData.email,
+        role: 'admin',
+        companyId: admin.companyId
+      }));
+      localStorage.setItem('company', JSON.stringify(admin));
+      setUser({
+        _id: admin._id,
+        name: admin.name,
+        email: userData.email,
+        role: 'admin',
+        companyId: admin.companyId
+      });
+      setCompany(admin);
       toast.success('Account created successfully!');
-      return newUser;
+      return admin;
     } catch (error) {
-      toast.error(error.message || 'Sign up failed');
+      toast.error(error.response?.data?.message || 'Sign up failed');
       throw error;
     } finally {
-      setLoading(false);
+       setLoading(false);
     }
   };
 

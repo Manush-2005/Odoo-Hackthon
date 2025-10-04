@@ -43,20 +43,45 @@ const SignIn = () => {
     setError
   } = useForm();
 
-  const onSubmit = async (data) => {
-    try {
-      setIsLoading(true);
-      await signIn(data.email, data.password);
+ const onSubmit = async (data) => {
+
+   try {
+   setIsLoading(true);
+
+      // Fetch user info from backend using email
+      const res = await axios.get(`http://localhost:5000/api/admin/info-by-email/${data.email}`);
+      const admin = res.data.data;
+
+      // Simple password check (replace with real auth in production)
+      if (!admin || data.password !== 'Admin@123') {
+        setError('email', { 
+          type: 'manual', 
+          message: 'Invalid credentials' 
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      // Set localStorage items
+      localStorage.setItem('user', JSON.stringify({
+        _id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: 'admin',
+        companyId: admin.companyId
+      }));
+      localStorage.setItem('company', JSON.stringify(admin));
+
       navigate(from, { replace: true });
     } catch (error) {
       setError('email', { 
         type: 'manual', 
-        message: error.message || 'Invalid credentials' 
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        message: error.response?.data?.message || 'Invalid credentials' 
+      })
+    };
+    setIsLoading(false);
+  
+};
 
   const containerVariants = {
     hidden: { opacity: 0, y: 50 },

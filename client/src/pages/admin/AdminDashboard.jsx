@@ -48,17 +48,20 @@ const AdminDashboard = () => {
   useEffect(() => {
     loadDashboardData();
     // eslint-disable-next-line
-  }, []);
+  }, [user?._id]);
 
   const loadDashboardData = async () => {
     try {
       setLoading(true);
 
+      // Use user._id from localStorage/context for all routes
+      const companyId = user?._id;
+
       // Fetch users and expenses from backend
       const [usersRes, expensesRes] = await Promise.all([
-        axios.get(`http://localhost:5000/api/admin/employees/68e0b3cdea8ac4964e44c8bc`),
+        axios.get(`http://localhost:5000/api/admin/employees/${companyId}`),
         axios.get(`http://localhost:5000/api/admin/expenses/all`, {
-          params: { companyId: "68e0b3cdea8ac4964e44c8bc"}
+          params: { companyId }
         })
       ]);
 
