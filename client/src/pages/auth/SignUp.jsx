@@ -32,7 +32,6 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { mockApi, currencyApi } from '../../utils/api';
-import { currencyApi } from '../../utils/api';
 import axios from 'axios';
 
 const SignUp = () => {
