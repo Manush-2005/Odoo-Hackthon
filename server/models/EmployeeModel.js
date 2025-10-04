@@ -1,4 +1,4 @@
-import EmployeeSchema from "./schema/EmployeeSchema.js";
+import EmployeeSchema from "./schemas/EmployeeSchema.js";
 import mongoose from "mongoose";
 
 

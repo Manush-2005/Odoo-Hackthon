@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
-import AdminRouter from './controllers/adminRoutes.js';
+import AdminRouter from './adminRoutes.js';
     
     // Load environment variables
     dotenv.config();
