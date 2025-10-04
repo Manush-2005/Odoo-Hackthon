@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import AdminRouter from './adminRoutes.js';
+import EmployeeRouter from './EmployeeRoutes.js';
+import ManagerRouter from './ManagerRoutes.js';
     
     // Load environment variables
     dotenv.config();
@@ -26,6 +28,8 @@ import AdminRouter from './adminRoutes.js';
 
 
     app.use("/api/admin", AdminRouter);
+    app.use("/api/Employee", EmployeeRouter);
+    app.use("/api/Manager", ManagerRouter);
     
     app.listen(PORT, async() => {
 
