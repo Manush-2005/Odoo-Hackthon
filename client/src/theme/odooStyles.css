@@ -1,0 +1,296 @@
+/* Odoo-inspired Global Styles */
+
+/* CSS Variables - Applied via JS in ThemeContext */
+:root {
+  /* Colors are set dynamically via ThemeContext */
+  
+  /* Layout variables */
+  --sidebar-width-open: 280px;
+  --sidebar-width-closed: 60px;
+  
+  /* Additional Odoo-style variables */
+  --odoo-gradient-primary: linear-gradient(135deg, #714B67 0%, #8F6B84 100%);
+  --odoo-gradient-surface: linear-gradient(135deg, #F3F4F6 0%, #E6E9ED 100%);
+  --odoo-gradient-dark: linear-gradient(135deg, #111827 0%, #1F2937 100%);
+  
+  /* Animation durations */
+  --odoo-duration-fast: 0.15s;
+  --odoo-duration-normal: 0.2s;
+  --odoo-duration-slow: 0.3s;
+}
+
+/* Global reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--odoo-gradient-surface);
+  transition: background var(--odoo-duration-normal) ease;
+}
+
+body.dark {
+  background: var(--odoo-gradient-dark);
+}
+
+/* Typography Classes */
+.odoo-heading {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--odoo-primary);
+}
+
+.odoo-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.odoo-caption {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* Layout Utilities */
+.odoo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--odoo-spacing-md);
+}
+
+.odoo-card {
+  background: var(--mui-palette-background-paper);
+  border-radius: var(--odoo-border-radius-lg);
+  box-shadow: var(--odoo-shadow-sm);
+  padding: var(--odoo-spacing-lg);
+  transition: var(--odoo-transition);
+}
+
+.odoo-card:hover {
+  box-shadow: var(--odoo-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.odoo-surface {
+  background: var(--odoo-surface-light);
+  border-radius: var(--odoo-border-radius);
+  padding: var(--odoo-spacing-md);
+}
+
+body.dark .odoo-surface {
+  background: var(--odoo-surface-dark);
+}
+
+/* Button Styles */
+.odoo-btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  border-radius: var(--odoo-border-radius);
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  transition: var(--odoo-transition);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.odoo-btn-primary {
+  background: var(--odoo-gradient-primary);
+  color: white;
+  box-shadow: var(--odoo-shadow-sm);
+}
+
+.odoo-btn-primary:hover {
+  box-shadow: var(--odoo-shadow-md);
+  transform: translateY(-1px);
+}
+
+.odoo-btn-secondary {
+  background: transparent;
+  color: var(--odoo-primary);
+  border: 2px solid var(--odoo-primary);
+}
+
+.odoo-btn-secondary:hover {
+  background: var(--odoo-primary);
+  color: white;
+}
+
+/* Form Styles */
+.odoo-input {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  border-radius: var(--odoo-border-radius);
+  border: 2px solid #E5E7EB;
+  padding: 12px 16px;
+  transition: var(--odoo-transition);
+  width: 100%;
+}
+
+.odoo-input:focus {
+  outline: none;
+  border-color: var(--odoo-primary);
+  box-shadow: 0 0 0 3px rgba(113, 75, 103, 0.1);
+}
+
+.odoo-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--mui-palette-text-primary);
+  margin-bottom: var(--odoo-spacing-xs);
+  display: block;
+}
+
+/* Status Badges */
+.odoo-badge {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.odoo-badge-success {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28A745;
+}
+
+.odoo-badge-warning {
+  background: rgba(255, 193, 7, 0.1);
+  color: #F57C00;
+}
+
+.odoo-badge-error {
+  background: rgba(220, 53, 69, 0.1);
+  color: #DC3545;
+}
+
+.odoo-badge-info {
+  background: rgba(23, 162, 184, 0.1);
+  color: #17A2B8;
+}
+
+/* Layout Grids */
+.odoo-grid {
+  display: grid;
+  gap: var(--odoo-spacing-md);
+}
+
+.odoo-grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.odoo-grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.odoo-grid-4 {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .odoo-container {
+    padding: 0 var(--odoo-spacing-sm);
+  }
+  
+  .odoo-card {
+    padding: var(--odoo-spacing-md);
+  }
+  
+  .odoo-grid-2,
+  .odoo-grid-3,
+  .odoo-grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animation Classes */
+.odoo-fade-in {
+  animation: odooFadeIn var(--odoo-duration-normal) ease-out;
+}
+
+.odoo-slide-up {
+  animation: odooSlideUp var(--odoo-duration-normal) ease-out;
+}
+
+@keyframes odooFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes odooSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--odoo-primary);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar for dark theme */
+body.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+body.dark ::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+body.dark ::-webkit-scrollbar-thumb {
+  background: #6B7280;
+  border-radius: 4px;
+}
+
+body.dark ::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+/* Light theme scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F3F4F6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
