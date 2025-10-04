@@ -1,7 +1,9 @@
-const express = require('express');
-    const dotenv = require('dotenv');
-    const mongoose = require("mongoose");
-    const cors = require("cors");
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
+
+import AdminRouter from './controllers/adminRoutes.js';
     
     // Load environment variables
     dotenv.config();
@@ -21,6 +23,9 @@ const express = require('express');
     });
     
     const PORT = process.env.PORT || 5000;
+
+
+    app.use("/api/admin", AdminRouter);
     
     app.listen(PORT, async() => {
 
