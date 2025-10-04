@@ -223,12 +223,14 @@ const ModernSidebar = ({ onClose, onSidebarToggle }) => {
                 marginLeft: "16px",
               }}
             >
-              <BusinessCenter
+              <Box
+                component="img"
+                src="/logo.png"
+                alt="Odoo Logo"
                 sx={{
-                  color: "#714B67",
-                  fontSize: "28px",
-                  filter:
-                    "drop-shadow(0 2px 4px rgba(113, 75, 103, 0.3))",
+                  width: "40px",
+                  height: "40px",
+                  filter: "drop-shadow(0 2px 4px rgba(113, 75, 103, 0.3))",
                 }}
               />
               <Typography
