@@ -16,7 +16,7 @@ A **complete, production-ready frontend** for a multi-role expense approval syst
 - **Manager**: Expense approval workflow and team management  
 - **Employee**: Expense submission and tracking
 - Secure role-based routing and access control
-- Persistent authentication with localStorage
+- Persistent authentication with localStorage 
 
 ### 💼 **Admin Dashboard**
 - Real-time analytics with interactive stats cards
