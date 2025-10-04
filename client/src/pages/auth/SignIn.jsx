@@ -19,7 +19,7 @@ import {
   VisibilityOff,
   Email,
   Lock,
-  AccountBalance
+  BusinessCenter
 } from '@mui/icons-material';
 
 import { useAuth } from '../../context/AuthContext';
@@ -90,8 +90,8 @@ const SignIn = () => {
         alignItems: 'center',
         justifyContent: 'center',
         background: isDark
-          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'
-          : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+          ? 'linear-gradient(135deg, #111827 0%, #1F2937 100%)'
+          : 'linear-gradient(135deg, #F3F4F6 0%, #E6E9ED 100%)',
         py: 3
       }}
     >
@@ -104,14 +104,14 @@ const SignIn = () => {
           <Paper
             elevation={0}
             sx={{
-              p: 4,
-              backgroundColor: isDark ? 'rgba(30, 41, 59, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-              backdropFilter: 'blur(10px)',
-              border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-              borderRadius: 3,
+              p: { xs: 3, sm: 4 },
+              backgroundColor: isDark ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(20px)',
+              border: `1px solid ${isDark ? 'rgba(156, 163, 175, 0.1)' : 'rgba(113, 75, 103, 0.1)'}`,
+              borderRadius: 4,
               boxShadow: isDark
-                ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-                : '0 25px 50px -12px rgba(0, 0, 0, 0.1)'
+                ? '0 25px 50px -12px rgba(0, 0, 0, 0.4)'
+                : '0 25px 50px -12px rgba(113, 75, 103, 0.15)'
             }}
           >
             {/* Header */}
@@ -127,21 +127,24 @@ const SignIn = () => {
                     damping: 20 
                   }}
                 >
-                  <AccountBalance
+                  <BusinessCenter
                     sx={{
-                      fontSize: 48,
-                      color: isDark ? '#3b82f6' : '#1976d2',
-                      mb: 2
+                      fontSize: 56,
+                      color: '#714B67',
+                      mb: 2,
+                      filter: 'drop-shadow(0 4px 8px rgba(113, 75, 103, 0.3))'
                     }}
                   />
                 </motion.div>
                 <Typography
-                  variant="h4"
+                  variant="h2"
                   component="h1"
                   sx={{
+                    fontFamily: 'Caveat, cursive',
                     fontWeight: 700,
-                    color: isDark ? 'white' : 'black',
-                    mb: 1
+                    color: '#714B67',
+                    mb: 1,
+                    fontSize: { xs: '2rem', sm: '2.5rem' }
                   }}
                 >
                   Welcome Back
@@ -149,10 +152,12 @@ const SignIn = () => {
                 <Typography
                   variant="body1"
                   sx={{
-                    color: isDark ? '#94a3b8' : '#64748b'
+                    color: isDark ? '#D1D5DB' : '#6B7280',
+                    fontWeight: 500,
+                    mb: 1
                   }}
                 >
-                  Sign in to your expense management account
+                  Sign in to your ExpenseHub account
                 </Typography>
               </Box>
             </motion.div>
@@ -162,19 +167,39 @@ const SignIn = () => {
               <Box
                 sx={{
                   mb: 3,
-                  p: 2,
-                  backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(25, 118, 210, 0.1)',
-                  borderRadius: 2,
-                  border: `1px solid ${isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(25, 118, 210, 0.2)'}`
+                  p: 3,
+                  background: isDark 
+                    ? 'linear-gradient(135deg, rgba(143, 107, 132, 0.1) 0%, rgba(113, 75, 103, 0.05) 100%)'
+                    : 'linear-gradient(135deg, rgba(113, 75, 103, 0.08) 0%, rgba(143, 107, 132, 0.04) 100%)',
+                  borderRadius: 3,
+                  border: `2px solid ${isDark ? 'rgba(143, 107, 132, 0.2)' : 'rgba(113, 75, 103, 0.15)'}`,
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
               >
-                <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, color: isDark ? '#3b82f6' : '#1976d2' }}>
-                  Demo Credentials:
+                <Typography 
+                  variant="subtitle1" 
+                  sx={{ 
+                    fontWeight: 700, 
+                    mb: 2, 
+                    color: '#714B67',
+                    fontFamily: 'Inter, sans-serif'
+                  }}
+                >
+                  🚀 Demo Credentials
                 </Typography>
-                <Typography variant="caption" sx={{ display: 'block', color: isDark ? '#94a3b8' : '#64748b' }}>
-                  Admin: admin@company.com | Manager: manager@company.com | Employee: employee@company.com
-                </Typography>
-                <Typography variant="caption" sx={{ display: 'block', color: isDark ? '#94a3b8' : '#64748b' }}>
+                <Box sx={{ mb: 1 }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: isDark ? '#F9FAFB' : '#1F2937' }}>
+                    Admin: admin@company.com
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: isDark ? '#F9FAFB' : '#1F2937' }}>
+                    Manager: manager@company.com
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: isDark ? '#F9FAFB' : '#1F2937' }}>
+                    Employee: employee@company.com
+                  </Typography>
+                </Box>
+                <Typography variant="body2" sx={{ fontWeight: 600, color: '#714B67' }}>
                   Password: Admin@123
                 </Typography>
               </Box>
@@ -194,25 +219,38 @@ const SignIn = () => {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Email sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                        <Email sx={{ color: '#714B67' }} />
                       </InputAdornment>
                     ),
                   }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                      backgroundColor: isDark ? 'rgba(31, 41, 55, 0.5)' : 'rgba(255, 255, 255, 0.8)',
+                      borderRadius: 3,
+                      fontFamily: 'Inter, sans-serif',
                       '& fieldset': {
-                        borderColor: isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                        borderColor: isDark ? 'rgba(156, 163, 175, 0.3)' : 'rgba(113, 75, 103, 0.3)',
+                        borderWidth: 2,
                       },
                       '&:hover fieldset': {
-                        borderColor: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+                        borderColor: '#714B67',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#714B67',
+                        borderWidth: 2,
                       },
                     },
                     '& .MuiInputLabel-root': {
-                      color: isDark ? '#94a3b8' : '#64748b',
+                      color: isDark ? '#D1D5DB' : '#6B7280',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 600,
+                      '&.Mui-focused': {
+                        color: '#714B67',
+                      },
                     },
                     '& .MuiInputBase-input': {
-                      color: isDark ? 'white' : 'black',
+                      color: isDark ? '#F9FAFB' : '#1F2937',
+                      fontFamily: 'Inter, sans-serif',
                     },
                   }}
                   {...register('email', {
@@ -235,7 +273,7 @@ const SignIn = () => {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Lock sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                        <Lock sx={{ color: '#714B67' }} />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -244,7 +282,7 @@ const SignIn = () => {
                           aria-label="toggle password visibility"
                           onClick={() => setShowPassword(!showPassword)}
                           edge="end"
-                          sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                          sx={{ color: '#714B67' }}
                         >
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
@@ -253,19 +291,32 @@ const SignIn = () => {
                   }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                      backgroundColor: isDark ? 'rgba(31, 41, 55, 0.5)' : 'rgba(255, 255, 255, 0.8)',
+                      borderRadius: 3,
+                      fontFamily: 'Inter, sans-serif',
                       '& fieldset': {
-                        borderColor: isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                        borderColor: isDark ? 'rgba(156, 163, 175, 0.3)' : 'rgba(113, 75, 103, 0.3)',
+                        borderWidth: 2,
                       },
                       '&:hover fieldset': {
-                        borderColor: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+                        borderColor: '#714B67',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#714B67',
+                        borderWidth: 2,
                       },
                     },
                     '& .MuiInputLabel-root': {
-                      color: isDark ? '#94a3b8' : '#64748b',
+                      color: isDark ? '#D1D5DB' : '#6B7280',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 600,
+                      '&.Mui-focused': {
+                        color: '#714B67',
+                      },
                     },
                     '& .MuiInputBase-input': {
-                      color: isDark ? 'white' : 'black',
+                      color: isDark ? '#F9FAFB' : '#1F2937',
+                      fontFamily: 'Inter, sans-serif',
                     },
                   }}
                   {...register('password', {
@@ -283,22 +334,31 @@ const SignIn = () => {
                     variant="contained"
                     disabled={isLoading}
                     sx={{
-                      mt: 3,
-                      mb: 2,
-                      py: 1.5,
-                      backgroundColor: isDark ? '#3b82f6' : '#1976d2',
+                      mt: 4,
+                      mb: 3,
+                      py: 2,
+                      background: 'linear-gradient(135deg, #714B67 0%, #8F6B84 100%)',
                       '&:hover': {
-                        backgroundColor: isDark ? '#2563eb' : '#1565c0',
+                        background: 'linear-gradient(135deg, #5A3B52 0%, #714B67 100%)',
+                        boxShadow: '0 6px 20px rgba(113, 75, 103, 0.4)',
+                        transform: 'translateY(-2px)',
                       },
-                      borderRadius: 2,
-                      fontWeight: 600,
-                      fontSize: '1rem'
+                      '&:disabled': {
+                        background: 'linear-gradient(135deg, #9CA3AF 0%, #D1D5DB 100%)',
+                      },
+                      borderRadius: 3,
+                      fontWeight: 700,
+                      fontSize: '1.1rem',
+                      fontFamily: 'Inter, sans-serif',
+                      textTransform: 'none',
+                      boxShadow: '0 4px 12px rgba(113, 75, 103, 0.3)',
+                      transition: 'all 0.2s ease-in-out',
                     }}
                   >
                     {isLoading ? (
                       <CircularProgress size={24} color="inherit" />
                     ) : (
-                      'Sign In'
+                      'Sign In to ExpenseHub'
                     )}
                   </Button>
                 </motion.div>
@@ -307,34 +367,46 @@ const SignIn = () => {
 
             {/* Links */}
             <motion.div variants={itemVariants}>
-              <Divider sx={{ my: 3, borderColor: isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)' }} />
+              <Divider sx={{ my: 4, borderColor: isDark ? 'rgba(156, 163, 175, 0.2)' : 'rgba(113, 75, 103, 0.2)' }} />
               
               <Box sx={{ textAlign: 'center', space: 2 }}>
                 <Link
                   to="/forgot-password"
                   style={{
-                    color: isDark ? '#3b82f6' : '#1976d2',
+                    color: '#714B67',
                     textDecoration: 'none',
-                    fontWeight: 500,
+                    fontWeight: 600,
+                    fontFamily: 'Inter, sans-serif',
                     display: 'block',
-                    marginBottom: '8px'
+                    marginBottom: '16px',
+                    transition: 'color 0.2s ease',
                   }}
+                  onMouseEnter={(e) => e.target.style.color = '#8F6B84'}
+                  onMouseLeave={(e) => e.target.style.color = '#714B67'}
                 >
                   Forgot your password?
                 </Link>
                 
                 <Typography
                   variant="body2"
-                  sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                  sx={{ 
+                    color: isDark ? '#D1D5DB' : '#6B7280',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 500,
+                  }}
                 >
                   Don't have an account?{' '}
                   <Link
                     to="/signup"
                     style={{
-                      color: isDark ? '#3b82f6' : '#1976d2',
+                      color: '#714B67',
                       textDecoration: 'none',
-                      fontWeight: 600
+                      fontWeight: 700,
+                      fontFamily: 'Inter, sans-serif',
+                      transition: 'color 0.2s ease',
                     }}
+                    onMouseEnter={(e) => e.target.style.color = '#8F6B84'}
+                    onMouseLeave={(e) => e.target.style.color = '#714B67'}
                   >
                     Sign Up
                   </Link>

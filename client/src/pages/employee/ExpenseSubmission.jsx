@@ -235,19 +235,39 @@ const ExpenseSubmission = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Receipt sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                          <Receipt sx={{ color: '#714B67' }} />
                         </InputAdornment>
                       ),
                     }}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                        backgroundColor: isDark ? 'rgba(113, 75, 103, 0.05)' : 'rgba(113, 75, 103, 0.02)',
+                        '& fieldset': {
+                          borderColor: isDark ? 'rgba(113, 75, 103, 0.3)' : 'rgba(113, 75, 103, 0.3)',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: '#714B67',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#714B67',
+                          borderWidth: '2px',
+                        },
                       },
                       '& .MuiInputLabel-root': {
-                        color: isDark ? '#94a3b8' : '#64748b',
+                        color: isDark ? '#D1D5DB' : '#6B7280',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
+                        '&.Mui-focused': {
+                          color: '#714B67',
+                        },
                       },
                       '& .MuiInputBase-input': {
-                        color: isDark ? 'white' : 'black',
+                        color: isDark ? '#FFFFFF' : '#141A29',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
+                      },
+                      '& .MuiFormHelperText-root': {
+                        fontFamily: 'Inter, sans-serif',
                       },
                     }}
                   />
@@ -272,19 +292,39 @@ const ExpenseSubmission = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Description sx={{ color: isDark ? '#94a3b8' : '#64748b', alignSelf: 'flex-start', mt: 1 }} />
+                          <Description sx={{ color: '#714B67', alignSelf: 'flex-start', mt: 1 }} />
                         </InputAdornment>
                       ),
                     }}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                        backgroundColor: isDark ? 'rgba(113, 75, 103, 0.05)' : 'rgba(113, 75, 103, 0.02)',
+                        '& fieldset': {
+                          borderColor: isDark ? 'rgba(113, 75, 103, 0.3)' : 'rgba(113, 75, 103, 0.3)',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: '#714B67',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#714B67',
+                          borderWidth: '2px',
+                        },
                       },
                       '& .MuiInputLabel-root': {
-                        color: isDark ? '#94a3b8' : '#64748b',
+                        color: isDark ? '#D1D5DB' : '#6B7280',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
+                        '&.Mui-focused': {
+                          color: '#714B67',
+                        },
                       },
                       '& .MuiInputBase-input': {
-                        color: isDark ? 'white' : 'black',
+                        color: isDark ? '#FFFFFF' : '#141A29',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
+                      },
+                      '& .MuiFormHelperText-root': {
+                        fontFamily: 'Inter, sans-serif',
                       },
                     }}
                   />
@@ -314,19 +354,39 @@ const ExpenseSubmission = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <AttachMoney sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                          <AttachMoney sx={{ color: '#714B67' }} />
                         </InputAdornment>
                       ),
                     }}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                        backgroundColor: isDark ? 'rgba(113, 75, 103, 0.05)' : 'rgba(113, 75, 103, 0.02)',
+                        '& fieldset': {
+                          borderColor: isDark ? 'rgba(113, 75, 103, 0.3)' : 'rgba(113, 75, 103, 0.3)',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: '#714B67',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#714B67',
+                          borderWidth: '2px',
+                        },
                       },
                       '& .MuiInputLabel-root': {
-                        color: isDark ? '#94a3b8' : '#64748b',
+                        color: isDark ? '#D1D5DB' : '#6B7280',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
+                        '&.Mui-focused': {
+                          color: '#714B67',
+                        },
                       },
                       '& .MuiInputBase-input': {
-                        color: isDark ? 'white' : 'black',
+                        color: isDark ? '#FFFFFF' : '#141A29',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
+                      },
+                      '& .MuiFormHelperText-root': {
+                        fontFamily: 'Inter, sans-serif',
                       },
                     }}
                   />
@@ -354,13 +414,33 @@ const ExpenseSubmission = () => {
                         helperText={errors.currency?.message}
                         sx={{
                           '& .MuiOutlinedInput-root': {
-                            backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                            backgroundColor: isDark ? 'rgba(113, 75, 103, 0.05)' : 'rgba(113, 75, 103, 0.02)',
+                            '& fieldset': {
+                              borderColor: isDark ? 'rgba(113, 75, 103, 0.3)' : 'rgba(113, 75, 103, 0.3)',
+                            },
+                            '&:hover fieldset': {
+                              borderColor: '#714B67',
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: '#714B67',
+                              borderWidth: '2px',
+                            },
                           },
                           '& .MuiInputLabel-root': {
-                            color: isDark ? '#94a3b8' : '#64748b',
+                            color: isDark ? '#D1D5DB' : '#6B7280',
+                            fontFamily: 'Inter, sans-serif',
+                            fontWeight: 500,
+                            '&.Mui-focused': {
+                              color: '#714B67',
+                            },
                           },
                           '& .MuiInputBase-input': {
-                            color: isDark ? 'white' : 'black',
+                            color: isDark ? '#FFFFFF' : '#141A29',
+                            fontFamily: 'Inter, sans-serif',
+                            fontWeight: 500,
+                          },
+                          '& .MuiFormHelperText-root': {
+                            fontFamily: 'Inter, sans-serif',
                           },
                         }}
                       />
@@ -386,19 +466,39 @@ const ExpenseSubmission = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Category sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                          <Category sx={{ color: '#714B67' }} />
                         </InputAdornment>
                       ),
                     }}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                        backgroundColor: isDark ? 'rgba(113, 75, 103, 0.05)' : 'rgba(113, 75, 103, 0.02)',
+                        '& fieldset': {
+                          borderColor: isDark ? 'rgba(113, 75, 103, 0.3)' : 'rgba(113, 75, 103, 0.3)',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: '#714B67',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#714B67',
+                          borderWidth: '2px',
+                        },
                       },
                       '& .MuiInputLabel-root': {
-                        color: isDark ? '#94a3b8' : '#64748b',
+                        color: isDark ? '#D1D5DB' : '#6B7280',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
+                        '&.Mui-focused': {
+                          color: '#714B67',
+                        },
                       },
                       '& .MuiInputBase-input': {
-                        color: isDark ? 'white' : 'black',
+                        color: isDark ? '#FFFFFF' : '#141A29',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
+                      },
+                      '& .MuiFormHelperText-root': {
+                        fontFamily: 'Inter, sans-serif',
                       },
                     }}
                   >
@@ -429,19 +529,39 @@ const ExpenseSubmission = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <CalendarToday sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                          <CalendarToday sx={{ color: '#714B67' }} />
                         </InputAdornment>
                       ),
                     }}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                        backgroundColor: isDark ? 'rgba(113, 75, 103, 0.05)' : 'rgba(113, 75, 103, 0.02)',
+                        '& fieldset': {
+                          borderColor: isDark ? 'rgba(113, 75, 103, 0.3)' : 'rgba(113, 75, 103, 0.3)',
+                        },
+                        '&:hover fieldset': {
+                          borderColor: '#714B67',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#714B67',
+                          borderWidth: '2px',
+                        },
                       },
                       '& .MuiInputLabel-root': {
-                        color: isDark ? '#94a3b8' : '#64748b',
+                        color: isDark ? '#D1D5DB' : '#6B7280',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
+                        '&.Mui-focused': {
+                          color: '#714B67',
+                        },
                       },
                       '& .MuiInputBase-input': {
-                        color: isDark ? 'white' : 'black',
+                        color: isDark ? '#FFFFFF' : '#141A29',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
+                      },
+                      '& .MuiFormHelperText-root': {
+                        fontFamily: 'Inter, sans-serif',
                       },
                     }}
                   />
@@ -455,9 +575,12 @@ const ExpenseSubmission = () => {
                 <Alert
                   severity="info"
                   sx={{
-                    backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(25, 118, 210, 0.1)',
-                    border: `1px solid ${isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(25, 118, 210, 0.2)'}`,
-                    color: isDark ? '#3b82f6' : '#1976d2'
+                    backgroundColor: isDark ? 'rgba(113, 75, 103, 0.1)' : 'rgba(113, 75, 103, 0.1)',
+                    border: `1px solid rgba(113, 75, 103, 0.2)`,
+                    color: '#714B67',
+                    '& .MuiAlert-icon': {
+                      color: '#714B67',
+                    }
                   }}
                 >
                   <Typography variant="body2">
@@ -665,7 +788,8 @@ const ExpenseSubmission = () => {
           component="h1"
           sx={{
             fontWeight: 700,
-            color: isDark ? 'white' : 'black',
+            fontFamily: 'Caveat, cursive',
+            color: isDark ? '#FFFFFF' : '#141A29',
             mb: 1
           }}
         >
@@ -674,7 +798,9 @@ const ExpenseSubmission = () => {
         <Typography
           variant="body1"
           sx={{
-            color: isDark ? '#94a3b8' : '#64748b'
+            color: isDark ? '#D1D5DB' : '#6B7280',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 500,
           }}
         >
           Create a new expense report for approval
@@ -688,21 +814,25 @@ const ExpenseSubmission = () => {
             <StepLabel
               sx={{
                 '& .MuiStepLabel-label': {
-                  color: isDark ? '#94a3b8' : '#64748b',
+                  color: isDark ? '#D1D5DB' : '#6B7280',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 500,
                   '&.Mui-active': {
-                    color: isDark ? '#3b82f6' : '#1976d2',
+                    color: '#714B67',
+                    fontWeight: 600,
                   },
                   '&.Mui-completed': {
-                    color: isDark ? '#10b981' : '#2e7d32',
+                    color: '#714B67',
+                    fontWeight: 600,
                   },
                 },
                 '& .MuiStepIcon-root': {
-                  color: isDark ? '#475569' : '#e0e0e0',
+                  color: isDark ? 'rgba(113, 75, 103, 0.3)' : 'rgba(113, 75, 103, 0.2)',
                   '&.Mui-active': {
-                    color: isDark ? '#3b82f6' : '#1976d2',
+                    color: '#714B67',
                   },
                   '&.Mui-completed': {
-                    color: isDark ? '#10b981' : '#2e7d32',
+                    color: '#714B67',
                   },
                 },
               }}

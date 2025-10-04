@@ -160,9 +160,11 @@ export const mockApi = {
       return [
         { id: 1, name: 'John Admin', email: 'admin@company.com', role: 'admin', status: 'active', createdAt: '2024-01-15' },
         { id: 2, name: 'Sarah Manager', email: 'manager@company.com', role: 'manager', status: 'active', createdAt: '2024-01-20' },
-        { id: 3, name: 'Mike Employee', email: 'employee@company.com', role: 'employee', status: 'active', createdAt: '2024-01-25' },
-        { id: 4, name: 'Lisa Designer', email: 'lisa@company.com', role: 'employee', status: 'active', createdAt: '2024-02-01' },
-        { id: 5, name: 'David Developer', email: 'david@company.com', role: 'employee', status: 'inactive', createdAt: '2024-02-05' }
+        { id: 3, name: 'Mike Employee', email: 'employee@company.com', role: 'employee', status: 'active', createdAt: '2024-01-25', managerId: 2 },
+        { id: 4, name: 'Lisa Designer', email: 'lisa@company.com', role: 'employee', status: 'active', createdAt: '2024-02-01', managerId: 2 },
+        { id: 5, name: 'David Developer', email: 'david@company.com', role: 'employee', status: 'inactive', createdAt: '2024-02-05' },
+        { id: 6, name: 'Emma Sales Manager', email: 'emma@company.com', role: 'manager', status: 'active', createdAt: '2024-02-10' },
+        { id: 7, name: 'Tom Sales Rep', email: 'tom@company.com', role: 'employee', status: 'active', createdAt: '2024-02-15', managerId: 6 }
       ];
     },
     
@@ -186,6 +188,17 @@ export const mockApi = {
     delete: async (id) => {
       await new Promise(resolve => setTimeout(resolve, 400));
       return { success: true };
+    },
+
+    assignManager: async (userId, managerId) => {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      return { 
+        success: true, 
+        userId, 
+        managerId,
+        updatedAt: new Date().toISOString() 
+      };
     }
   },
 

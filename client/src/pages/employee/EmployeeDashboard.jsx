@@ -110,7 +110,8 @@ const EmployeeDashboard = () => {
           component="h1"
           sx={{
             fontWeight: 700,
-            color: isDark ? 'white' : 'black',
+            fontFamily: 'Caveat, cursive',
+            color: isDark ? '#FFFFFF' : '#141A29',
             mb: 1
           }}
         >
@@ -119,7 +120,9 @@ const EmployeeDashboard = () => {
         <Typography
           variant="body1"
           sx={{
-            color: isDark ? '#94a3b8' : '#64748b'
+            color: isDark ? '#D1D5DB' : '#6B7280',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 500,
           }}
         >
           Track and manage your expense submissions
@@ -136,13 +139,17 @@ const EmployeeDashboard = () => {
           sx={{
             py: 1.5,
             px: 4,
-            backgroundColor: isDark ? '#3b82f6' : '#1976d2',
+            background: 'linear-gradient(135deg, #714B67 0%, #8F6B84 100%)',
             '&:hover': {
-              backgroundColor: isDark ? '#2563eb' : '#1565c0',
+              background: 'linear-gradient(135deg, #8F6B84 0%, #A084A5 100%)',
+              transform: 'translateY(-2px)',
+              boxShadow: '0 8px 25px rgba(113, 75, 103, 0.3)',
             },
             borderRadius: 2,
             fontWeight: 600,
-            fontSize: '1rem'
+            fontSize: '1rem',
+            fontFamily: 'Inter, sans-serif',
+            transition: 'all 0.3s ease',
           }}
         >
           Submit New Expense
@@ -155,11 +162,14 @@ const EmployeeDashboard = () => {
           <Card
             sx={{
               background: isDark
-                ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)'
-                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%)',
-              backdropFilter: 'blur(10px)',
-              border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-              borderRadius: 3
+                ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(55, 65, 81, 0.75) 100%)'
+                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(249, 250, 251, 0.8) 100%)',
+              backdropFilter: 'blur(16px)',
+              border: `1px solid ${isDark ? 'rgba(113, 75, 103, 0.2)' : 'rgba(113, 75, 103, 0.15)'}`,
+              borderRadius: 3,
+              boxShadow: isDark
+                ? '0 8px 32px rgba(113, 75, 103, 0.1)'
+                : '0 8px 32px rgba(113, 75, 103, 0.05)'
             }}
           >
             <CardContent>
@@ -168,8 +178,8 @@ const EmployeeDashboard = () => {
                   sx={{
                     p: 1,
                     borderRadius: 2,
-                    backgroundColor: '#3b82f620',
-                    color: '#3b82f6',
+                    backgroundColor: 'rgba(113, 75, 103, 0.2)',
+                    color: '#714B67',
                     mr: 2
                   }}
                 >
@@ -178,7 +188,11 @@ const EmployeeDashboard = () => {
                 <Box>
                   <Typography
                     variant="body2"
-                    sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                    sx={{ 
+                      color: isDark ? '#D1D5DB' : '#6B7280',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 500,
+                    }}
                   >
                     Total Expenses
                   </Typography>
@@ -186,7 +200,8 @@ const EmployeeDashboard = () => {
                     variant="h4"
                     sx={{
                       fontWeight: 700,
-                      color: isDark ? 'white' : 'black'
+                      fontFamily: 'Caveat, cursive',
+                      color: isDark ? '#FFFFFF' : '#141A29'
                     }}
                   >
                     {stats.totalExpenses}
@@ -201,11 +216,14 @@ const EmployeeDashboard = () => {
           <Card
             sx={{
               background: isDark
-                ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)'
-                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%)',
-              backdropFilter: 'blur(10px)',
-              border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-              borderRadius: 3
+                ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(55, 65, 81, 0.75) 100%)'
+                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(249, 250, 251, 0.8) 100%)',
+              backdropFilter: 'blur(16px)',
+              border: `1px solid ${isDark ? 'rgba(113, 75, 103, 0.2)' : 'rgba(113, 75, 103, 0.15)'}`,
+              borderRadius: 3,
+              boxShadow: isDark
+                ? '0 8px 32px rgba(113, 75, 103, 0.1)'
+                : '0 8px 32px rgba(113, 75, 103, 0.05)'
             }}
           >
             <CardContent>
@@ -224,7 +242,11 @@ const EmployeeDashboard = () => {
                 <Box>
                   <Typography
                     variant="body2"
-                    sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                    sx={{ 
+                      color: isDark ? '#D1D5DB' : '#6B7280',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 500,
+                    }}
                   >
                     Pending Amount
                   </Typography>
@@ -232,7 +254,8 @@ const EmployeeDashboard = () => {
                     variant="h5"
                     sx={{
                       fontWeight: 700,
-                      color: isDark ? 'white' : 'black'
+                      fontFamily: 'Caveat, cursive',
+                      color: isDark ? '#FFFFFF' : '#141A29'
                     }}
                   >
                     {formatCurrency(stats.pendingAmount, company?.baseCurrency)}
@@ -247,11 +270,14 @@ const EmployeeDashboard = () => {
           <Card
             sx={{
               background: isDark
-                ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)'
-                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%)',
-              backdropFilter: 'blur(10px)',
-              border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-              borderRadius: 3
+                ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(55, 65, 81, 0.75) 100%)'
+                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(249, 250, 251, 0.8) 100%)',
+              backdropFilter: 'blur(16px)',
+              border: `1px solid ${isDark ? 'rgba(113, 75, 103, 0.2)' : 'rgba(113, 75, 103, 0.15)'}`,
+              borderRadius: 3,
+              boxShadow: isDark
+                ? '0 8px 32px rgba(113, 75, 103, 0.1)'
+                : '0 8px 32px rgba(113, 75, 103, 0.05)'
             }}
           >
             <CardContent>
@@ -270,7 +296,11 @@ const EmployeeDashboard = () => {
                 <Box>
                   <Typography
                     variant="body2"
-                    sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                    sx={{ 
+                      color: isDark ? '#D1D5DB' : '#6B7280',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 500,
+                    }}
                   >
                     Approved Amount
                   </Typography>
@@ -278,7 +308,8 @@ const EmployeeDashboard = () => {
                     variant="h5"
                     sx={{
                       fontWeight: 700,
-                      color: isDark ? 'white' : 'black'
+                      fontFamily: 'Caveat, cursive',
+                      color: isDark ? '#FFFFFF' : '#141A29'
                     }}
                   >
                     {formatCurrency(stats.approvedAmount, company?.baseCurrency)}
@@ -293,11 +324,14 @@ const EmployeeDashboard = () => {
           <Card
             sx={{
               background: isDark
-                ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)'
-                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%)',
-              backdropFilter: 'blur(10px)',
-              border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-              borderRadius: 3
+                ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(55, 65, 81, 0.75) 100%)'
+                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(249, 250, 251, 0.8) 100%)',
+              backdropFilter: 'blur(16px)',
+              border: `1px solid ${isDark ? 'rgba(113, 75, 103, 0.2)' : 'rgba(113, 75, 103, 0.15)'}`,
+              borderRadius: 3,
+              boxShadow: isDark
+                ? '0 8px 32px rgba(113, 75, 103, 0.1)'
+                : '0 8px 32px rgba(113, 75, 103, 0.05)'
             }}
           >
             <CardContent>
@@ -316,7 +350,11 @@ const EmployeeDashboard = () => {
                 <Box>
                   <Typography
                     variant="body2"
-                    sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                    sx={{ 
+                      color: isDark ? '#D1D5DB' : '#6B7280',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 500,
+                    }}
                   >
                     Rejected
                   </Typography>
@@ -324,7 +362,8 @@ const EmployeeDashboard = () => {
                     variant="h4"
                     sx={{
                       fontWeight: 700,
-                      color: isDark ? 'white' : 'black'
+                      fontFamily: 'Caveat, cursive',
+                      color: isDark ? '#FFFFFF' : '#141A29'
                     }}
                   >
                     {stats.rejectedCount}
@@ -342,11 +381,14 @@ const EmployeeDashboard = () => {
           <Card
             sx={{
               background: isDark
-                ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)'
-                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%)',
-              backdropFilter: 'blur(10px)',
-              border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-              borderRadius: 3
+                ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(55, 65, 81, 0.75) 100%)'
+                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(249, 250, 251, 0.8) 100%)',
+              backdropFilter: 'blur(16px)',
+              border: `1px solid ${isDark ? 'rgba(113, 75, 103, 0.2)' : 'rgba(113, 75, 103, 0.15)'}`,
+              borderRadius: 3,
+              boxShadow: isDark
+                ? '0 8px 32px rgba(113, 75, 103, 0.1)'
+                : '0 8px 32px rgba(113, 75, 103, 0.05)'
             }}
           >
             <CardContent>
@@ -354,8 +396,9 @@ const EmployeeDashboard = () => {
                 <Typography
                   variant="h6"
                   sx={{
-                    fontWeight: 600,
-                    color: isDark ? 'white' : 'black'
+                    fontWeight: 700,
+                    fontFamily: 'Caveat, cursive',
+                    color: isDark ? '#FFFFFF' : '#141A29'
                   }}
                 >
                   Recent Expenses
@@ -363,7 +406,15 @@ const EmployeeDashboard = () => {
                 <Button
                   size="small"
                   onClick={() => navigate('/employee/history')}
-                  sx={{ color: isDark ? '#3b82f6' : '#1976d2' }}
+                  sx={{ 
+                    color: '#714B67',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 600,
+                    '&:hover': {
+                      color: '#8F6B84',
+                      backgroundColor: 'rgba(113, 75, 103, 0.1)',
+                    }
+                  }}
                 >
                   View All
                 </Button>
@@ -371,16 +422,25 @@ const EmployeeDashboard = () => {
 
               {recentExpenses.length === 0 ? (
                 <Box sx={{ textAlign: 'center', py: 4 }}>
-                  <Receipt sx={{ fontSize: 48, color: isDark ? '#475569' : '#9ca3af', mb: 2 }} />
+                  <Receipt sx={{ fontSize: 48, color: isDark ? '#6B7280' : '#9CA3AF', mb: 2 }} />
                   <Typography
                     variant="h6"
-                    sx={{ color: isDark ? '#94a3b8' : '#64748b', mb: 1 }}
+                    sx={{ 
+                      color: isDark ? '#D1D5DB' : '#6B7280',
+                      fontFamily: 'Caveat, cursive',
+                      fontWeight: 700,
+                      mb: 1 
+                    }}
                   >
                     No expenses yet
                   </Typography>
                   <Typography
                     variant="body2"
-                    sx={{ color: isDark ? '#64748b' : '#9ca3af' }}
+                    sx={{ 
+                      color: isDark ? '#9CA3AF' : '#6B7280',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 500,
+                    }}
                   >
                     Submit your first expense to get started
                   </Typography>
@@ -394,7 +454,7 @@ const EmployeeDashboard = () => {
                         px: 0,
                         py: 2,
                         borderBottom: index < recentExpenses.length - 1
-                          ? `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`
+                          ? `1px solid ${isDark ? 'rgba(113, 75, 103, 0.2)' : 'rgba(113, 75, 103, 0.15)'}`
                           : 'none'
                       }}
                     >
@@ -416,7 +476,8 @@ const EmployeeDashboard = () => {
                             variant="body1"
                             sx={{
                               fontWeight: 600,
-                              color: isDark ? 'white' : 'black',
+                              fontFamily: 'Inter, sans-serif',
+                              color: isDark ? '#FFFFFF' : '#141A29',
                               mb: 0.5
                             }}
                           >
@@ -428,7 +489,9 @@ const EmployeeDashboard = () => {
                             <Typography
                               variant="body2"
                               sx={{
-                                color: isDark ? '#94a3b8' : '#64748b',
+                                color: isDark ? '#D1D5DB' : '#6B7280',
+                                fontFamily: 'Inter, sans-serif',
+                                fontWeight: 500,
                                 mb: 0.5
                               }}
                             >
@@ -436,19 +499,27 @@ const EmployeeDashboard = () => {
                             </Typography>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                <AttachMoney sx={{ fontSize: 16, color: isDark ? '#94a3b8' : '#64748b' }} />
+                                <AttachMoney sx={{ fontSize: 16, color: isDark ? '#D1D5DB' : '#6B7280' }} />
                                 <Typography
                                   variant="caption"
-                                  sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                                  sx={{ 
+                                    color: isDark ? '#D1D5DB' : '#6B7280',
+                                    fontFamily: 'Inter, sans-serif',
+                                    fontWeight: 500,
+                                  }}
                                 >
                                   {formatCurrency(expense.convertedAmount, company?.baseCurrency)}
                                 </Typography>
                               </Box>
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                <CalendarToday sx={{ fontSize: 16, color: isDark ? '#94a3b8' : '#64748b' }} />
+                                <CalendarToday sx={{ fontSize: 16, color: isDark ? '#D1D5DB' : '#6B7280' }} />
                                 <Typography
                                   variant="caption"
-                                  sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                                  sx={{ 
+                                    color: isDark ? '#D1D5DB' : '#6B7280',
+                                    fontFamily: 'Inter, sans-serif',
+                                    fontWeight: 500,
+                                  }}
                                 >
                                   {formatDate(expense.date)}
                                 </Typography>

@@ -1,51 +1,24 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Avatar,
-  Menu,
-  MenuItem,
   Drawer,
-  Box
+  Box,
+  Fab
 } from '@mui/material';
-import {
-  Menu as MenuIcon,
-  AccountCircle,
-  Brightness4,
-  Brightness7,
-  Logout
-} from '@mui/icons-material';
+import { Menu as MenuIcon } from '@mui/icons-material';
 
-import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import ModernSidebar from './ModernSidebar';
 
 const Layout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
   
-  const { user, signOut } = useAuth();
-  const { isDark, toggleTheme } = useTheme();
+
+  const { isDark } = useTheme();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  };
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleProfileMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleSignOut = () => {
-    handleProfileMenuClose();
-    signOut();
   };
 
   return (
@@ -60,11 +33,11 @@ const Layout = () => {
       }}
     >
       {/* Modern Sidebar - Desktop */}
-      <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+      <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
         <ModernSidebar />
       </Box>
 
-      {/* Mobile Drawer */}
+      {/* Mobile/Tablet Drawer */}
       <Drawer
         variant="temporary"
         open={mobileOpen}
@@ -73,7 +46,7 @@ const Layout = () => {
           keepMounted: true,
         }}
         sx={{
-          display: { xs: 'block', md: 'none' },
+          display: { xs: 'block', lg: 'none' },
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: 280,
@@ -85,121 +58,44 @@ const Layout = () => {
         <ModernSidebar onClose={handleDrawerToggle} />
       </Drawer>
 
-      {/* Top Bar - Mobile Only */}
-      <AppBar
-        position="fixed"
+      {/* Floating Menu Button - Mobile/Tablet Only */}
+      <Fab
+        color="primary"
+        aria-label="menu"
+        onClick={handleDrawerToggle}
         sx={{
-          display: { xs: 'flex', md: 'none' },
+          position: 'fixed',
+          bottom: 24,
+          right: 24,
+          display: { xs: 'flex', lg: 'none' },
           zIndex: 1300,
-          backgroundColor: isDark ? 'rgba(15, 23, 42, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+          background: 'linear-gradient(135deg, #714B67 0%, #8F6B84 100%)',
           backdropFilter: 'blur(10px)',
-          borderBottom: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-          boxShadow: 'none',
-          color: isDark ? 'white' : 'black'
+          border: `2px solid ${isDark ? 'rgba(143, 107, 132, 0.3)' : 'rgba(113, 75, 103, 0.3)'}`,
+          '&:hover': {
+            transform: 'scale(1.1)',
+            background: 'linear-gradient(135deg, #5A3B52 0%, #714B67 100%)',
+            boxShadow: '0 8px 25px rgba(113, 75, 103, 0.4)',
+          },
+          transition: 'all 0.3s ease',
         }}
       >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, fontWeight: 600 }}
-          >
-            ExpenseHub
-          </Typography>
-
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <IconButton
-              sx={{ ml: 1 }}
-              onClick={toggleTheme}
-              color="inherit"
-              aria-label="toggle theme"
-            >
-              {isDark ? <Brightness7 /> : <Brightness4 />}
-            </IconButton>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-              sx={{ ml: 1 }}
-            >
-              <Avatar
-                sx={{
-                  width: 32,
-                  height: 32,
-                  backgroundColor: isDark ? '#3b82f6' : '#1976d2',
-                  fontSize: '0.875rem',
-                  fontWeight: 600
-                }}
-              >
-                {user?.name?.charAt(0).toUpperCase()}
-              </Avatar>
-            </IconButton>
-          </motion.div>
-        </Toolbar>
-      </AppBar>
-
-      {/* Profile Menu */}
-      <Menu
-        id="profile-menu"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleProfileMenuClose}
-        PaperProps={{
-          sx: {
-            mt: 1,
-            backgroundColor: isDark ? '#1e293b' : '#ffffff',
-            backdropFilter: 'blur(10px)',
-            border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-            borderRadius: 2,
-            minWidth: 200
-          }
-        }}
-      >
-        <MenuItem onClick={handleProfileMenuClose} sx={{ py: 1 }}>
-          <AccountCircle sx={{ mr: 2 }} />
-          Profile
-        </MenuItem>
-        <MenuItem onClick={handleSignOut} sx={{ py: 1, color: '#ef4444' }}>
-          <Logout sx={{ mr: 2 }} />
-          Sign Out
-        </MenuItem>
-      </Menu>
+        <MenuIcon />
+      </Fab>
 
       {/* Main content */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          p: { xs: 2, md: 3 },
-          pt: { xs: 10, md: 3 }, // Account for mobile top bar
-          pl: { xs: 2, md: 12 }, // Account for sidebar on desktop
+          p: { xs: 2, sm: 2, md: 3 },
+          pl: { xs: 2, sm: 2, md: 3, lg: 32 }, // Account for sidebar width (280px + padding)
+          pr: { xs: 2, sm: 2, md: 3 },
           minHeight: '100vh',
           backgroundColor: 'transparent',
           position: 'relative',
-          zIndex: 1
+          zIndex: 1,
+          transition: 'padding-left 0.4s cubic-bezier(0.4, 0, 0.2, 1)', // Smooth transition
         }}
       >
         <AnimatePresence mode="wait">

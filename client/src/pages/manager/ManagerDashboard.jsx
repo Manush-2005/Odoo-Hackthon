@@ -148,7 +148,8 @@ const ManagerDashboard = () => {
           component="h1"
           sx={{
             fontWeight: 700,
-            color: isDark ? 'white' : 'black',
+            fontFamily: 'Caveat, cursive',
+            color: isDark ? '#FFFFFF' : '#141A29',
             mb: 1
           }}
         >
@@ -157,10 +158,12 @@ const ManagerDashboard = () => {
         <Typography
           variant="body1"
           sx={{
-            color: isDark ? '#94a3b8' : '#64748b'
+            color: isDark ? '#D1D5DB' : '#6B7280',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 500,
           }}
         >
-          Review and approve team expense submissions
+          Review and approve expense submissions from your team
         </Typography>
       </Box>
 

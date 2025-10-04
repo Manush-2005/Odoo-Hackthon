@@ -155,7 +155,8 @@ const AdminDashboard = () => {
           component="h1"
           sx={{
             fontWeight: 700,
-            color: isDark ? 'white' : 'black',
+            fontFamily: 'Caveat, cursive',
+            color: isDark ? '#FFFFFF' : '#141A29',
             mb: 1
           }}
         >
@@ -164,7 +165,9 @@ const AdminDashboard = () => {
         <Typography
           variant="body1"
           sx={{
-            color: isDark ? '#94a3b8' : '#64748b'
+            color: isDark ? '#D1D5DB' : '#6B7280',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 500,
           }}
         >
           Welcome back, {user?.name}! Here's what's happening with your expense system.
@@ -184,17 +187,21 @@ const AdminDashboard = () => {
               <Card
                 sx={{
                   background: isDark
-                    ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)'
-                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%)',
-                  backdropFilter: 'blur(10px)',
-                  border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
+                    ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(55, 65, 81, 0.75) 100%)'
+                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(249, 250, 251, 0.8) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  border: `1px solid ${isDark ? 'rgba(113, 75, 103, 0.2)' : 'rgba(113, 75, 103, 0.15)'}`,
                   borderRadius: 3,
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
+                  boxShadow: isDark
+                    ? '0 8px 32px rgba(113, 75, 103, 0.1)'
+                    : '0 8px 32px rgba(113, 75, 103, 0.05)',
                   '&:hover': {
+                    transform: 'translateY(-4px)',
                     boxShadow: isDark
-                      ? '0 10px 25px rgba(0, 0, 0, 0.3)'
-                      : '0 10px 25px rgba(0, 0, 0, 0.1)',
+                      ? '0 12px 40px rgba(113, 75, 103, 0.2)'
+                      : '0 12px 40px rgba(113, 75, 103, 0.15)',
                   }
                 }}
                 onClick={stat.action}
@@ -216,8 +223,9 @@ const AdminDashboard = () => {
                       <Typography
                         variant="body2"
                         sx={{
-                          color: isDark ? '#94a3b8' : '#64748b',
-                          fontWeight: 500
+                          color: isDark ? '#D1D5DB' : '#6B7280',
+                          fontFamily: 'Inter, sans-serif',
+                          fontWeight: 500,
                         }}
                       >
                         {stat.title}
@@ -228,7 +236,8 @@ const AdminDashboard = () => {
                     variant="h4"
                     sx={{
                       fontWeight: 700,
-                      color: isDark ? 'white' : 'black',
+                      fontFamily: 'Caveat, cursive',
+                      color: isDark ? '#FFFFFF' : '#141A29',
                       mb: 1
                     }}
                   >

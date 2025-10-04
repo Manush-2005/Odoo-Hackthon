@@ -85,8 +85,8 @@ const ForgotPassword = () => {
         alignItems: 'center',
         justifyContent: 'center',
         background: isDark
-          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'
-          : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+          ? 'linear-gradient(135deg, #111827 0%, #1F2937 100%)'
+          : 'linear-gradient(135deg, #F3F4F6 0%, #E6E9ED 100%)',
         py: 3
       }}
     >
@@ -100,13 +100,13 @@ const ForgotPassword = () => {
             elevation={0}
             sx={{
               p: 4,
-              backgroundColor: isDark ? 'rgba(30, 41, 59, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-              backdropFilter: 'blur(10px)',
-              border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
+              backgroundColor: isDark ? 'rgba(30, 41, 59, 0.85)' : 'rgba(255, 255, 255, 0.9)',
+              backdropFilter: 'blur(16px)',
+              border: `1px solid ${isDark ? 'rgba(113, 75, 103, 0.2)' : 'rgba(113, 75, 103, 0.15)'}`,
               borderRadius: 3,
               boxShadow: isDark
-                ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-                : '0 25px 50px -12px rgba(0, 0, 0, 0.1)'
+                ? '0 25px 50px -12px rgba(113, 75, 103, 0.25)'
+                : '0 25px 50px -12px rgba(113, 75, 103, 0.15)'
             }}
           >
             {/* Header */}
@@ -126,7 +126,7 @@ const ForgotPassword = () => {
                     <KeyRounded
                       sx={{
                         fontSize: 48,
-                        color: isDark ? '#10b981' : '#2e7d32',
+                        color: '#10B981',
                         mb: 2
                       }}
                     />
@@ -134,7 +134,7 @@ const ForgotPassword = () => {
                     <AccountBalance
                       sx={{
                         fontSize: 48,
-                        color: isDark ? '#3b82f6' : '#1976d2',
+                        color: '#714B67',
                         mb: 2
                       }}
                     />
@@ -145,7 +145,8 @@ const ForgotPassword = () => {
                   component="h1"
                   sx={{
                     fontWeight: 700,
-                    color: isDark ? 'white' : 'black',
+                    fontFamily: 'Caveat, cursive',
+                    color: isDark ? '#FFFFFF' : '#141A29',
                     mb: 1
                   }}
                 >
@@ -154,7 +155,9 @@ const ForgotPassword = () => {
                 <Typography
                   variant="body1"
                   sx={{
-                    color: isDark ? '#94a3b8' : '#64748b'
+                    color: isDark ? '#D1D5DB' : '#6B7280',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 500,
                   }}
                 >
                   {isSubmitted 
@@ -173,11 +176,11 @@ const ForgotPassword = () => {
                   icon={<KeyRounded />}
                   sx={{
                     mb: 3,
-                    backgroundColor: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(46, 125, 50, 0.1)',
-                    border: `1px solid ${isDark ? 'rgba(16, 185, 129, 0.2)' : 'rgba(46, 125, 50, 0.2)'}`,
-                    color: isDark ? '#10b981' : '#2e7d32',
+                    backgroundColor: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.1)',
+                    border: `1px solid rgba(16, 185, 129, 0.2)`,
+                    color: '#10B981',
                     '& .MuiAlert-icon': {
-                      color: isDark ? '#10b981' : '#2e7d32',
+                      color: '#10B981',
                     }
                   }}
                 >
@@ -193,18 +196,18 @@ const ForgotPassword = () => {
                   sx={{
                     mb: 3,
                     p: 2,
-                    backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(25, 118, 210, 0.1)',
+                    backgroundColor: isDark ? 'rgba(113, 75, 103, 0.1)' : 'rgba(113, 75, 103, 0.1)',
                     borderRadius: 2,
-                    border: `1px solid ${isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(25, 118, 210, 0.2)'}`
+                    border: `1px solid rgba(113, 75, 103, 0.2)`
                   }}
                 >
-                  <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, color: isDark ? '#3b82f6' : '#1976d2' }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, color: '#714B67' }}>
                     📧 Email Sent (Demo Mode)
                   </Typography>
-                  <Typography variant="caption" sx={{ display: 'block', color: isDark ? '#94a3b8' : '#64748b', mb: 1 }}>
+                  <Typography variant="caption" sx={{ display: 'block', color: isDark ? '#D1D5DB' : '#6B7280', mb: 1 }}>
                     In a real application, this password would be sent to your email address.
                   </Typography>
-                  <Typography variant="caption" sx={{ display: 'block', color: isDark ? '#94a3b8' : '#64748b' }}>
+                  <Typography variant="caption" sx={{ display: 'block', color: isDark ? '#D1D5DB' : '#6B7280' }}>
                     Please change this password after signing in for security.
                   </Typography>
                 </Box>
@@ -220,13 +223,17 @@ const ForgotPassword = () => {
                     variant="contained"
                     sx={{
                       py: 1.5,
-                      backgroundColor: isDark ? '#3b82f6' : '#1976d2',
+                      background: 'linear-gradient(135deg, #714B67 0%, #8F6B84 100%)',
                       '&:hover': {
-                        backgroundColor: isDark ? '#2563eb' : '#1565c0',
+                        background: 'linear-gradient(135deg, #8F6B84 0%, #A084A5 100%)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 8px 25px rgba(113, 75, 103, 0.3)',
                       },
                       borderRadius: 2,
                       fontWeight: 600,
-                      fontSize: '1rem'
+                      fontSize: '1rem',
+                      fontFamily: 'Inter, sans-serif',
+                      transition: 'all 0.3s ease',
                     }}
                   >
                     Back to Sign In
@@ -248,28 +255,40 @@ const ForgotPassword = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <Email sx={{ color: isDark ? '#94a3b8' : '#64748b' }} />
+                          <Email sx={{ color: '#714B67' }} />
                         </InputAdornment>
                       ),
                     }}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        backgroundColor: isDark ? 'rgba(148, 163, 184, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+                        backgroundColor: isDark ? 'rgba(113, 75, 103, 0.05)' : 'rgba(113, 75, 103, 0.02)',
                         '& fieldset': {
-                          borderColor: isDark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                          borderColor: isDark ? 'rgba(113, 75, 103, 0.3)' : 'rgba(113, 75, 103, 0.3)',
                         },
                         '&:hover fieldset': {
-                          borderColor: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+                          borderColor: '#714B67',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#714B67',
+                          borderWidth: '2px',
                         },
                       },
                       '& .MuiInputLabel-root': {
-                        color: isDark ? '#94a3b8' : '#64748b',
+                        color: isDark ? '#D1D5DB' : '#6B7280',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
+                        '&.Mui-focused': {
+                          color: '#714B67',
+                        },
                       },
                       '& .MuiInputBase-input': {
-                        color: isDark ? 'white' : 'black',
+                        color: isDark ? '#FFFFFF' : '#141A29',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 500,
                       },
                       '& .MuiFormHelperText-root': {
-                        color: isDark ? '#94a3b8' : '#64748b',
+                        color: isDark ? '#D1D5DB' : '#6B7280',
+                        fontFamily: 'Inter, sans-serif',
                       },
                     }}
                     {...register('email', {
@@ -294,13 +313,21 @@ const ForgotPassword = () => {
                         mt: 3,
                         mb: 2,
                         py: 1.5,
-                        backgroundColor: isDark ? '#3b82f6' : '#1976d2',
+                        background: 'linear-gradient(135deg, #714B67 0%, #8F6B84 100%)',
                         '&:hover': {
-                          backgroundColor: isDark ? '#2563eb' : '#1565c0',
+                          background: 'linear-gradient(135deg, #8F6B84 0%, #A084A5 100%)',
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 8px 25px rgba(113, 75, 103, 0.3)',
+                        },
+                        '&:disabled': {
+                          background: isDark ? 'rgba(113, 75, 103, 0.3)' : 'rgba(113, 75, 103, 0.5)',
+                          color: isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.8)',
                         },
                         borderRadius: 2,
                         fontWeight: 600,
-                        fontSize: '1rem'
+                        fontSize: '1rem',
+                        fontFamily: 'Inter, sans-serif',
+                        transition: 'all 0.3s ease',
                       }}
                     >
                       {isLoading ? (
@@ -320,16 +347,24 @@ const ForgotPassword = () => {
                 <Box sx={{ textAlign: 'center', mt: 3 }}>
                   <Typography
                     variant="body2"
-                    sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                    sx={{ 
+                      color: isDark ? '#D1D5DB' : '#6B7280',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 500,
+                    }}
                   >
                     Remember your password?{' '}
                     <Link
                       to="/signin"
                       style={{
-                        color: isDark ? '#3b82f6' : '#1976d2',
+                        color: '#714B67',
                         textDecoration: 'none',
-                        fontWeight: 600
+                        fontWeight: 700,
+                        fontFamily: 'Inter, sans-serif',
+                        transition: 'color 0.2s ease',
                       }}
+                      onMouseEnter={(e) => e.target.style.color = '#8F6B84'}
+                      onMouseLeave={(e) => e.target.style.color = '#714B67'}
                     >
                       Sign In
                     </Link>

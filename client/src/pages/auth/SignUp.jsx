@@ -522,12 +522,12 @@ const SignUp = () => {
         alignItems: 'center',
         justifyContent: 'center',
         background: isDark
-          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'
-          : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+          ? 'linear-gradient(135deg, #111827 0%, #1F2937 100%)'
+          : 'linear-gradient(135deg, #F3F4F6 0%, #E6E9ED 100%)',
         py: 3
       }}
     >
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -536,14 +536,14 @@ const SignUp = () => {
           <Paper
             elevation={0}
             sx={{
-              p: 4,
-              backgroundColor: isDark ? 'rgba(30, 41, 59, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-              backdropFilter: 'blur(10px)',
-              border: `1px solid ${isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-              borderRadius: 3,
+              p: { xs: 3, sm: 4 },
+              backgroundColor: isDark ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(20px)',
+              border: `1px solid ${isDark ? 'rgba(156, 163, 175, 0.1)' : 'rgba(113, 75, 103, 0.1)'}`,
+              borderRadius: 4,
               boxShadow: isDark
-                ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-                : '0 25px 50px -12px rgba(0, 0, 0, 0.1)'
+                ? '0 25px 50px -12px rgba(0, 0, 0, 0.4)'
+                : '0 25px 50px -12px rgba(113, 75, 103, 0.15)'
             }}
           >
             {/* Header */}
@@ -558,21 +558,24 @@ const SignUp = () => {
                   damping: 20 
                 }}
               >
-                <AccountBalance
+                <Business
                   sx={{
-                    fontSize: 48,
-                    color: isDark ? '#3b82f6' : '#1976d2',
-                    mb: 2
+                    fontSize: 56,
+                    color: '#714B67',
+                    mb: 2,
+                    filter: 'drop-shadow(0 4px 8px rgba(113, 75, 103, 0.3))'
                   }}
                 />
               </motion.div>
               <Typography
-                variant="h4"
+                variant="h2"
                 component="h1"
                 sx={{
+                  fontFamily: 'Caveat, cursive',
                   fontWeight: 700,
-                  color: isDark ? 'white' : 'black',
-                  mb: 1
+                  color: '#714B67',
+                  mb: 1,
+                  fontSize: { xs: '2rem', sm: '2.5rem' }
                 }}
               >
                 Create Account
@@ -580,35 +583,54 @@ const SignUp = () => {
               <Typography
                 variant="body1"
                 sx={{
-                  color: isDark ? '#94a3b8' : '#64748b'
+                  color: isDark ? '#D1D5DB' : '#6B7280',
+                  fontWeight: 500,
+                  mb: 2
                 }}
               >
-                Set up your expense management system
+                Join ExpenseHub and streamline your expense management
               </Typography>
             </Box>
 
             {/* Stepper */}
-            <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
+            <Stepper 
+              activeStep={activeStep} 
+              sx={{ 
+                mb: 4,
+                '& .MuiStepConnector-root': {
+                  borderColor: isDark ? 'rgba(156, 163, 175, 0.3)' : 'rgba(113, 75, 103, 0.2)',
+                },
+                '& .Mui-active .MuiStepConnector-line': {
+                  borderColor: '#714B67',
+                },
+                '& .Mui-completed .MuiStepConnector-line': {
+                  borderColor: '#714B67',
+                },
+              }}
+            >
               {steps.map((label) => (
                 <Step key={label}>
                   <StepLabel
                     sx={{
                       '& .MuiStepLabel-label': {
-                        color: isDark ? '#94a3b8' : '#64748b',
+                        color: isDark ? '#D1D5DB' : '#6B7280',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: 600,
                         '&.Mui-active': {
-                          color: isDark ? '#3b82f6' : '#1976d2',
+                          color: '#714B67',
+                          fontWeight: 700,
                         },
                         '&.Mui-completed': {
-                          color: isDark ? '#10b981' : '#2e7d32',
+                          color: '#714B67',
                         },
                       },
                       '& .MuiStepIcon-root': {
-                        color: isDark ? '#475569' : '#e0e0e0',
+                        color: isDark ? 'rgba(156, 163, 175, 0.5)' : 'rgba(113, 75, 103, 0.3)',
                         '&.Mui-active': {
-                          color: isDark ? '#3b82f6' : '#1976d2',
+                          color: '#714B67',
                         },
                         '&.Mui-completed': {
-                          color: isDark ? '#10b981' : '#2e7d32',
+                          color: '#714B67',
                         },
                       },
                     }}
@@ -629,9 +651,17 @@ const SignUp = () => {
                   disabled={activeStep === 0}
                   onClick={handleBack}
                   sx={{
-                    color: isDark ? '#94a3b8' : '#64748b',
+                    color: '#714B67',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 600,
+                    borderRadius: 3,
+                    px: 3,
+                    py: 1.5,
                     '&:disabled': {
-                      color: isDark ? '#475569' : '#bdbdbd',
+                      color: isDark ? '#6B7280' : '#9CA3AF',
+                    },
+                    '&:hover': {
+                      backgroundColor: 'rgba(113, 75, 103, 0.08)',
                     },
                   }}
                 >
@@ -648,14 +678,24 @@ const SignUp = () => {
                       variant="contained"
                       disabled={isLoading}
                       sx={{
-                        py: 1.5,
+                        py: 2,
                         px: 4,
-                        backgroundColor: isDark ? '#3b82f6' : '#1976d2',
+                        background: 'linear-gradient(135deg, #714B67 0%, #8F6B84 100%)',
                         '&:hover': {
-                          backgroundColor: isDark ? '#2563eb' : '#1565c0',
+                          background: 'linear-gradient(135deg, #5A3B52 0%, #714B67 100%)',
+                          boxShadow: '0 6px 20px rgba(113, 75, 103, 0.4)',
+                          transform: 'translateY(-2px)',
                         },
-                        borderRadius: 2,
-                        fontWeight: 600
+                        '&:disabled': {
+                          background: 'linear-gradient(135deg, #9CA3AF 0%, #D1D5DB 100%)',
+                        },
+                        borderRadius: 3,
+                        fontWeight: 700,
+                        fontSize: '1rem',
+                        fontFamily: 'Inter, sans-serif',
+                        textTransform: 'none',
+                        boxShadow: '0 4px 12px rgba(113, 75, 103, 0.3)',
+                        transition: 'all 0.2s ease-in-out',
                       }}
                     >
                       {isLoading ? (
@@ -674,14 +714,21 @@ const SignUp = () => {
                       variant="contained"
                       onClick={handleNext}
                       sx={{
-                        py: 1.5,
+                        py: 2,
                         px: 4,
-                        backgroundColor: isDark ? '#3b82f6' : '#1976d2',
+                        background: 'linear-gradient(135deg, #714B67 0%, #8F6B84 100%)',
                         '&:hover': {
-                          backgroundColor: isDark ? '#2563eb' : '#1565c0',
+                          background: 'linear-gradient(135deg, #5A3B52 0%, #714B67 100%)',
+                          boxShadow: '0 6px 20px rgba(113, 75, 103, 0.4)',
+                          transform: 'translateY(-2px)',
                         },
-                        borderRadius: 2,
-                        fontWeight: 600
+                        borderRadius: 3,
+                        fontWeight: 700,
+                        fontSize: '1rem',
+                        fontFamily: 'Inter, sans-serif',
+                        textTransform: 'none',
+                        boxShadow: '0 4px 12px rgba(113, 75, 103, 0.3)',
+                        transition: 'all 0.2s ease-in-out',
                       }}
                     >
                       Next
@@ -692,21 +739,29 @@ const SignUp = () => {
             </form>
 
             {/* Link to Sign In */}
-            <Divider sx={{ my: 3, borderColor: isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)' }} />
+            <Divider sx={{ my: 4, borderColor: isDark ? 'rgba(156, 163, 175, 0.2)' : 'rgba(113, 75, 103, 0.2)' }} />
             
             <Box sx={{ textAlign: 'center' }}>
               <Typography
                 variant="body2"
-                sx={{ color: isDark ? '#94a3b8' : '#64748b' }}
+                sx={{ 
+                  color: isDark ? '#D1D5DB' : '#6B7280',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 500,
+                }}
               >
                 Already have an account?{' '}
                 <Link
                   to="/signin"
                   style={{
-                    color: isDark ? '#3b82f6' : '#1976d2',
+                    color: '#714B67',
                     textDecoration: 'none',
-                    fontWeight: 600
+                    fontWeight: 700,
+                    fontFamily: 'Inter, sans-serif',
+                    transition: 'color 0.2s ease',
                   }}
+                  onMouseEnter={(e) => e.target.style.color = '#8F6B84'}
+                  onMouseLeave={(e) => e.target.style.color = '#714B67'}
                 >
                   Sign In
                 </Link>

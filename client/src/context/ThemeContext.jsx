@@ -1,4 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import { createLightTheme, createDarkTheme, odooVariables } from '../theme/odooTheme';
 
 const ThemeContext = createContext();
 
@@ -25,13 +28,21 @@ export const ThemeProvider = ({ children }) => {
     }
   }, []);
 
-  // Apply theme to document
+  // Apply theme to document and CSS variables
   useEffect(() => {
+    const root = document.documentElement;
+    
     if (isDark) {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
     }
+    
+    // Apply Odoo CSS variables
+    Object.entries(odooVariables).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
+    });
+    
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
@@ -39,15 +50,22 @@ export const ThemeProvider = ({ children }) => {
     setIsDark(prev => !prev);
   };
 
+  // Create the appropriate MUI theme
+  const muiTheme = isDark ? createDarkTheme() : createLightTheme();
+
   const value = {
     isDark,
     toggleTheme,
-    theme: isDark ? 'dark' : 'light'
+    theme: isDark ? 'dark' : 'light',
+    muiTheme
   };
 
   return (
     <ThemeContext.Provider value={value}>
-      {children}
+      <MuiThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        {children}
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   );
 };

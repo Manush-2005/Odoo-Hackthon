@@ -168,7 +168,7 @@ const ApprovalManagement = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton
             onClick={() => navigate('/manager')}
-            sx={{ mr: 2, color: isDark ? '#94a3b8' : '#64748b' }}
+            sx={{ mr: 2, color: '#714B67' }}
           >
             <ArrowBack />
           </IconButton>
@@ -178,7 +178,8 @@ const ApprovalManagement = () => {
               component="h1"
               sx={{
                 fontWeight: 700,
-                color: isDark ? 'white' : 'black',
+                fontFamily: 'Caveat, cursive',
+                color: isDark ? '#FFFFFF' : '#141A29',
                 mb: 1
               }}
             >
@@ -187,7 +188,9 @@ const ApprovalManagement = () => {
             <Typography
               variant="body1"
               sx={{
-                color: isDark ? '#94a3b8' : '#64748b'
+                color: isDark ? '#D1D5DB' : '#6B7280',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 500,
               }}
             >
               Review and manage expense approvals
@@ -200,8 +203,14 @@ const ApprovalManagement = () => {
             startIcon={<FilterList />}
             variant="outlined"
             sx={{
-              borderColor: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgba(0, 0, 0, 0.23)',
-              color: isDark ? '#94a3b8' : '#64748b'
+              borderColor: '#714B67',
+              color: '#714B67',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 600,
+              '&:hover': {
+                borderColor: '#8F6B84',
+                backgroundColor: 'rgba(113, 75, 103, 0.1)',
+              }
             }}
           >
             Filter
@@ -210,8 +219,14 @@ const ApprovalManagement = () => {
             startIcon={<Download />}
             variant="outlined"
             sx={{
-              borderColor: isDark ? 'rgba(148, 163, 184, 0.3)' : 'rgba(0, 0, 0, 0.23)',
-              color: isDark ? '#94a3b8' : '#64748b'
+              borderColor: '#714B67',
+              color: '#714B67',
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 600,
+              '&:hover': {
+                borderColor: '#8F6B84',
+                backgroundColor: 'rgba(113, 75, 103, 0.1)',
+              }
             }}
           >
             Export
