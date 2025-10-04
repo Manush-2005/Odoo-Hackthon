@@ -4,6 +4,10 @@
 :root {
   /* Colors are set dynamically via ThemeContext */
   
+  /* Layout variables */
+  --sidebar-width-open: 280px;
+  --sidebar-width-closed: 60px;
+  
   /* Additional Odoo-style variables */
   --odoo-gradient-primary: linear-gradient(135deg, #714B67 0%, #8F6B84 100%);
   --odoo-gradient-surface: linear-gradient(135deg, #F3F4F6 0%, #E6E9ED 100%);
